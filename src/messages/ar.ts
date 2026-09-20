@@ -28,6 +28,9 @@ export const messagesAr = {
   "common.search": "بحث",
   "common.clearAll": "مسح الكل",
   "common.confirm": "تأكيد",
+  "common.empty": "لا توجد نتائج",
+  "common.favorite": "إضافة إلى المفضلة",
+  "common.removeFavorite": "إزالة من المفضلة",
 
   "status.upcoming": "قادم",
   "status.live": "حالي",

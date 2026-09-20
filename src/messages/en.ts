@@ -23,6 +23,9 @@ export const messagesEn: Messages = {
   "common.search": "Search",
   "common.clearAll": "Clear all",
   "common.confirm": "Confirm",
+  "common.empty": "No results",
+  "common.favorite": "Favorite",
+  "common.removeFavorite": "Remove from favorites",
 
   "status.upcoming": "Upcoming",
   "status.live": "Live",
