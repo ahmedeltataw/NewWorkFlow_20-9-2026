@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Generated output
+.next/
+
+# Test / browser artifacts
+playwright-report/
+test-results/
+
+# Scratch files
+.scratch/
+
+# Framework-owned directories
+.agents/
+.claude/
+.specify/
+
+# Generated / tooling-owned files
+next-env.d.ts
+tsconfig.tsbuildinfo
+package-lock.json
+docs_ai/
+
+# Specification artifacts
+specs/
