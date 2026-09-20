@@ -1,50 +1,12 @@
-@font-face {
-  font-family: "Graphik Arabic";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/graphik-arabic-400.woff2") format("woff2");
-}
+@import "tailwindcss";
 
-@font-face {
-  font-family: "Graphik Arabic";
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("/fonts/graphik-arabic-600.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Graphik Arabic";
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("/fonts/graphik-arabic-700.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Outfit";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/outfit-400.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Outfit";
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("/fonts/outfit-600.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Outfit";
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("/fonts/outfit-700.woff2") format("woff2");
-}
+/* The @font-face declarations are injected conditionally by this Tailwind v4
+   plugin: with no licensed WOFF2 files in public/fonts/ nothing is declared and
+   the browser issues no font request (the fallback stacks in src/app/fonts.ts
+   render instead); when all files are dropped in they are declared with
+   font-display: swap. A partially populated set fails the build loudly.
+   See docs/fonts.md. */
+@plugin "../../scripts/fonts-plugin.mjs";
 
 :root {
   color-scheme: light;
@@ -321,4 +283,12 @@
   --text-micro--line-height: 1.5;
   --text-micro--font-weight: 400;
   --text-micro--letter-spacing: 0em;
+}
+
+@layer base {
+  html,
+  body {
+    background-color: var(--surface-background);
+    color: var(--text-primary);
+  }
 }

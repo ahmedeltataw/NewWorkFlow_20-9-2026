@@ -10,17 +10,32 @@ const viewports = [
 ];
 
 const languages = [
-  { tag: "en", name: "English", locale: "en", basePath: "/en" },
-  { tag: "ar", name: "Arabic", locale: "ar-SA", basePath: "/ar" },
+  { tag: "en", name: "English", locale: "en" },
+  { tag: "ar", name: "Arabic", locale: "ar" },
 ];
 
 const projects = viewports.flatMap(({ name, width, height }) =>
-  languages.map(({ tag, locale, basePath }) => ({
+  languages.map(({ tag, locale }) => ({
     name: `${name}-${tag}`,
     use: {
-      baseURL: `${SERVER_URL}${basePath}`,
+      baseURL: SERVER_URL,
       locale,
       viewport: { width, height },
+      storageState: {
+        cookies: [
+          {
+            name: "locale",
+            value: locale,
+            domain: "localhost",
+            path: "/",
+            expires: -1,
+            httpOnly: false,
+            secure: false,
+            sameSite: "Lax" as const,
+          },
+        ],
+        origins: [],
+      },
     },
   })),
 );

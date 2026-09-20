@@ -14,11 +14,11 @@
  */
 
 import type { AuctionCategory, AuctionStatus, Seller } from "../lib/api/types";
+import type { MessageKey } from "../messages/ar";
+
+export type { MessageKey };
 
 export type SellerType = Seller["kind"];
-
-/** Stable message key into the ar/en catalogues (T015). */
-export type MessageKey = string;
 
 export interface FilterOption<T extends string = string> {
   readonly labelKey: MessageKey;

@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import type { CSSProperties, ReactNode } from "react";
 import { DOCUMENT_FONT_STACK, fontVariables } from "./fonts";
+import { LOCALE_DIRECTION } from "../lib/i18n";
+import { LocaleProvider } from "../lib/i18n/locale-provider";
+import { getRequestLocale } from "../lib/i18n/server";
 
 import "../styles/tokens.css";
 
@@ -14,12 +17,15 @@ const fontStyles: CSSProperties = {
   fontFamily: DOCUMENT_FONT_STACK,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
+  const locale = await getRequestLocale();
   return (
-    <html lang="ar" dir="rtl" style={fontStyles}>
-      <body>{children}</body>
+    <html lang={locale} dir={LOCALE_DIRECTION[locale]} style={fontStyles}>
+      <body>
+        <LocaleProvider locale={locale}>{children}</LocaleProvider>
+      </body>
     </html>
   );
 }

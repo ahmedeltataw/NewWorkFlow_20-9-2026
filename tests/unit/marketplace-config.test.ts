@@ -153,9 +153,7 @@ describe("T019 marketplace message keys", () => {
     selectLabelKeys(auctionStatusFilter),
     companyNameFilter.labelKey,
     companyNameFilter.placeholderKey,
-    ...filterGroups.map((group) =>
-      collectKeys(group.labelKey, ...group.filters.map((f) => f.labelKey)),
-    ),
+    ...filterGroups.map((group) => group.labelKey),
     ...(
       Object.values(advancedFilterSchemas).flat() as Array<{
         readonly labelKey: string;
