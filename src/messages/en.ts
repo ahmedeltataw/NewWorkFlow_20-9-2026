@@ -132,4 +132,20 @@ export const messagesEn: Messages = {
   "nav.notifications": "Notifications",
   "nav.language": "Language",
   "nav.languageToggle": "عربي",
+
+  "onboarding.discover.title": "Discover Auctions",
+  "onboarding.discover.description":
+    "Browse thousands of auctions for vehicles, real estate, and license plates and find what suits you",
+  "onboarding.liveBidding.title": "Live Bidding",
+  "onboarding.liveBidding.description":
+    "Join live auctions and bid in real time, easily and securely",
+  "onboarding.winning.title": "Win & Settle",
+  "onboarding.winning.description":
+    "Bid, win auctions, and settle with ease through a secure payment and settlement system",
+  "onboarding.skip": "Skip",
+  "onboarding.next": "Next",
+  "onboarding.getStarted": "Get Started",
+  "onboarding.selectLanguage": "Language",
+  "onboarding.progress": "Onboarding progress",
+  "onboarding.slidePosition": "Slide {0} of {1}",
 };

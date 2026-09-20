@@ -137,6 +137,22 @@ export const messagesAr = {
   "nav.notifications": "الإشعارات",
   "nav.language": "اللغة",
   "nav.languageToggle": "English",
+
+  "onboarding.discover.title": "اكتشف المزادات",
+  "onboarding.discover.description":
+    "تصفح آلاف المزادات على السيارات والعقارات واللوحات المرورية واعثر على ما يناسبك",
+  "onboarding.liveBidding.title": "مزايدة مباشرة",
+  "onboarding.liveBidding.description":
+    "شارك في المزادات الحية ومزدد في الوقت الفعلي بسهولة وأمان",
+  "onboarding.winning.title": "اربح وتمسك",
+  "onboarding.winning.description":
+    "ازايد واربح المزاد وتمسك بسهولة مع نظام دفع وتسوية آمن",
+  "onboarding.skip": "تخطي",
+  "onboarding.next": "التالي",
+  "onboarding.getStarted": "ابدأ",
+  "onboarding.selectLanguage": "اللغة",
+  "onboarding.progress": "تقدم الشرائح",
+  "onboarding.slidePosition": "شريحة {0} من {1}",
 } satisfies Record<string, string>;
 
 /**
