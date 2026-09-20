@@ -123,4 +123,13 @@ export const messagesEn: Messages = {
   "banks.nbb": "National Bank of Bahrain",
   "banks.bbk": "Bank of Bahrain and Kuwait",
   "banks.other": "Other (international)",
+
+  "nav.home": "Home",
+  "nav.auctions": "Auctions",
+  "nav.myAuctions": "My auctions",
+  "nav.wallet": "Wallet",
+  "nav.profile": "Profile",
+  "nav.notifications": "Notifications",
+  "nav.language": "Language",
+  "nav.languageToggle": "عربي",
 };

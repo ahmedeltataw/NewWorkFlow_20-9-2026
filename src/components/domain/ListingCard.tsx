@@ -64,7 +64,7 @@ export function ListingCard({
           className="h-full w-full object-cover"
           loading="lazy"
         />
-        <div className="absolute inset-start-2 top-2">
+        <div className="absolute start-2 top-2">
           <StatusBadge status={status} label={translate(locale, statusLabelKey)} />
         </div>
       </a>

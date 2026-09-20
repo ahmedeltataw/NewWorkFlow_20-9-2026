@@ -128,6 +128,15 @@ export const messagesAr = {
   "banks.nbb": "بنك البحرين الوطني",
   "banks.bbk": "بنك البحرين والكويت",
   "banks.other": "أخرى (تحويل دولي)",
+
+  "nav.home": "الرئيسية",
+  "nav.auctions": "المزادات",
+  "nav.myAuctions": "مزاداتي",
+  "nav.wallet": "المحفظة",
+  "nav.profile": "الحساب",
+  "nav.notifications": "الإشعارات",
+  "nav.language": "اللغة",
+  "nav.languageToggle": "English",
 } satisfies Record<string, string>;
 
 /**
