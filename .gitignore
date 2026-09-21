@@ -34,3 +34,6 @@ dist-ssr
 doc/*
 docs_ai/*
 specs/*
+# env
+.env
+.env.local

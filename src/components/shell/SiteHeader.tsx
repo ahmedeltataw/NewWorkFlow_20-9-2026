@@ -22,6 +22,7 @@ export interface SiteHeaderProps {
   readonly navItems?: readonly SiteHeaderNavItem[];
   readonly searchLabel?: string;
   readonly languageLabel?: string;
+  readonly languageToggleLabel?: string;
   readonly notificationsLabel?: string;
   readonly walletLabel?: string;
   readonly profileLabel?: string;
@@ -37,6 +38,7 @@ export function SiteHeader({
   navItems = [],
   searchLabel,
   languageLabel,
+  languageToggleLabel,
   notificationsLabel,
   walletLabel,
   profileLabel,
@@ -73,19 +75,22 @@ export function SiteHeader({
       role="banner"
       className="hidden border-b border-stroke-light bg-surface-white-bg md:block"
     >
-      <div className="mx-auto flex h-14 max-w-[1320px] items-center gap-6 px-6">
+      <div className="mx-auto flex h-14 max-w-[1320px] items-center gap-2 px-3 lg:gap-6 lg:px-6">
         <Link href="/" className="shrink-0 text-h3 text-text-primary">
           {logo ?? appName}
         </Link>
 
-        <nav aria-label="Primary" className="flex items-center gap-1">
+        <nav
+          aria-label="Primary"
+          className="flex min-w-0 items-center gap-0 lg:gap-1"
+        >
           {navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
               aria-current={item.active ? "page" : undefined}
               className={cx(
-                "px-3 py-2 text-label rounded-md transition-colors",
+                "whitespace-nowrap px-2 py-2 text-label rounded-md transition-colors lg:px-3",
                 item.active
                   ? "text-action-primary bg-surface-card-primary-bg"
                   : "text-text-primary hover:bg-surface-on-background",
@@ -111,14 +116,19 @@ export function SiteHeader({
               placeholder={searchLabel}
               aria-label={searchLabel}
               className={cx(
-                "h-9 w-48 rounded-full border border-stroke-heavy bg-surface-white-bg ps-4 pe-9 text-body-sm text-text-primary placeholder:text-text-placeholder",
+                "h-9 w-28 rounded-full border border-stroke-heavy bg-surface-white-bg ps-4 pe-9 text-body-sm text-text-primary placeholder:text-text-placeholder lg:w-48",
                 FOCUS_RING,
               )}
             />
           </div>
         )}
 
-        {languageLabel && <LanguageToggle label={languageLabel} />}
+        {languageLabel && languageToggleLabel && (
+          <LanguageToggle
+            label={languageLabel}
+            nextLanguageLabel={languageToggleLabel}
+          />
+        )}
 
         {notificationsLabel && (
           <a

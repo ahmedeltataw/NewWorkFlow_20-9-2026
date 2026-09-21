@@ -5,9 +5,13 @@ import { Button } from "../primitives/Button";
 
 export interface LanguageToggleProps {
   readonly label: string;
+  readonly nextLanguageLabel: string;
 }
 
-export function LanguageToggle({ label }: LanguageToggleProps) {
+export function LanguageToggle({
+  label,
+  nextLanguageLabel,
+}: LanguageToggleProps) {
   const { locale, setLocale } = useI18n();
   const next = locale === "ar" ? "en" : "ar";
 
@@ -16,9 +20,9 @@ export function LanguageToggle({ label }: LanguageToggleProps) {
       variant="outline"
       size="md"
       onClick={() => setLocale(next)}
-      aria-label={`${label}: ${next.toUpperCase()}`}
+      aria-label={`${label}: ${nextLanguageLabel}`}
     >
-      {next === "ar" ? "عربي" : "English"}
+      {nextLanguageLabel}
     </Button>
   );
 }

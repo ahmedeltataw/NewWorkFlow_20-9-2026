@@ -55,7 +55,7 @@ export function DetailsTabs({ details, labels }: DetailsTabsProps) {
       <div
         role="tablist"
         aria-label={labels.specifications}
-        className="flex gap-2 border-b border-stroke-light"
+        className="flex flex-wrap gap-2 border-b border-stroke-light"
       >
         {tabs.map((tab, index) => (
           <button
