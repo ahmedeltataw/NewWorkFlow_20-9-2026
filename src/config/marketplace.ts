@@ -406,7 +406,49 @@ export const capabilityDefaults = {
   depositReleaseAlternatives: false,
 } as const;
 
+export interface BannerItem {
+  readonly id: string;
+  readonly titleKey: MessageKey;
+  readonly descriptionKey: MessageKey;
+  readonly href: string;
+  readonly imageUrl?: string;
+}
+
+export const homeCarouselDefaults = {
+  autoAdvanceMs: 5000,
+  pauseOnHover: true,
+  pauseOnFocus: true,
+} as const;
+
+export const homeBanners: readonly BannerItem[] = [
+  {
+    id: "banner-discover",
+    titleKey: "home.banner.slideTitle.1",
+    descriptionKey: "home.banner.slideDescription.1",
+    href: "/auctions",
+  },
+  {
+    id: "banner-live",
+    titleKey: "home.banner.slideTitle.2",
+    descriptionKey: "home.banner.slideDescription.2",
+    href: "/auctions",
+  },
+  {
+    id: "banner-exclusive",
+    titleKey: "home.banner.slideTitle.3",
+    descriptionKey: "home.banner.slideDescription.3",
+    href: "/auctions",
+  },
+] as const;
+
 export const marketplaceConfig = {
+  /** Absolute base URL for API fetch calls; avoids relative URL failures in Node. */
+  apiBaseUrl:
+    process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3000",
+  home: {
+    banners: homeBanners,
+    carousel: homeCarouselDefaults,
+  },
   filters: filterSchemas,
   bidding: {
     quickBidPercentagePresets,

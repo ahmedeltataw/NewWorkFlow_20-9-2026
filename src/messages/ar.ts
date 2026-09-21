@@ -153,6 +153,23 @@ export const messagesAr = {
   "onboarding.selectLanguage": "اللغة",
   "onboarding.progress": "تقدم الشرائح",
   "onboarding.slidePosition": "شريحة {0} من {1}",
+
+  "home.banner.ariaLabel": "شريط البانر الترويجي",
+  "home.banner.slidePosition": "شريحة {0} من {1}",
+  "home.banner.nextSlide": "الشريحة التالية",
+  "home.banner.previousSlide": "الشريحة السابقة",
+  "home.category.chipsLabel": "تصفح حسب الفئة",
+  "home.category.allLabel": "الكل",
+  "home.listings.ariaLabel": "المزادات النشطة",
+  "home.listings.title": "المزادات النشطة",
+  "home.empty.title": "لا توجد مزادات حالياً",
+  "home.empty.description": "تحقق لاحقاً من المزادات المتاحة",
+  "home.banner.slideTitle.1": "اكتشف المزادات الرائجة",
+  "home.banner.slideTitle.2": "مزادات حية بالوقت الحقيقي",
+  "home.banner.slideTitle.3": "فرص حصرية لا تفوّتها",
+  "home.banner.slideDescription.1": "تصفح آلاف المزادات على السيارات والعقارات واللوحات المرورية",
+  "home.banner.slideDescription.2": "شارك في المزادات الحية ومزدد بسهولة وأمان",
+  "home.banner.slideDescription.3": "ازايد واربح المزاد مع نظام دفع وتسوية آمن",
 } satisfies Record<string, string>;
 
 /**
