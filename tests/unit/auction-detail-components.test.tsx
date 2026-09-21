@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 
 import { DetailsTabs } from "../../src/components/domain/DetailsTabs";
 import { MediaGallery } from "../../src/components/domain/MediaGallery";
+import { hasRequiredAuctionMedia } from "../../src/lib/media";
 import { createAuction, createMediaAsset } from "../../src/mocks/factories";
 
 const galleryLabels = {
@@ -15,6 +16,20 @@ const galleryLabels = {
 };
 
 describe("MediaGallery", () => {
+  it("requires four images and a video before auction media is valid", () => {
+    const fourImages = Array.from({ length: 4 }, (_, index) =>
+      createMediaAsset({ id: `image-${index}`, kind: "image" }),
+    );
+
+    expect(hasRequiredAuctionMedia(fourImages)).toBe(false);
+    expect(
+      hasRequiredAuctionMedia([
+        ...fourImages,
+        createMediaAsset({ id: "video", kind: "video" }),
+      ]),
+    ).toBe(true);
+  });
+
   it("stops an incomplete auction gallery with a recoverable content error", () => {
     render(
       <MediaGallery

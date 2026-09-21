@@ -19,10 +19,8 @@ import { discoveryScenarioHandlers } from "../../src/mocks/handlers/discovery";
 import { LocaleProvider, useI18n } from "../../src/lib/i18n/locale-provider";
 import { ListingGrid } from "../../src/components/domain/ListingGrid";
 import { MarketplaceFilters } from "../../src/features/marketplace/Filters";
-import {
-  MediaGallery,
-  hasRequiredAuctionMedia,
-} from "../../src/components/domain/MediaGallery";
+import { MediaGallery } from "../../src/components/domain/MediaGallery";
+import { hasRequiredAuctionMedia } from "../../src/lib/media";
 import { LoginRequired } from "../../src/features/auth/LoginRequired";
 import { useLoginIntentRestoration } from "../../src/features/auth/PhoneSignInEntry";
 import {

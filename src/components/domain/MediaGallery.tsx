@@ -3,6 +3,7 @@
 
 import { useMemo, useState } from "react";
 import type { MediaGallery as MediaGalleryAssets } from "../../lib/api/types";
+import { hasRequiredAuctionMedia } from "../../lib/media";
 import { Icon } from "../primitives/Icon";
 import { FOCUS_RING } from "../primitives/utils";
 
@@ -17,14 +18,6 @@ export interface MediaGalleryLabels {
 export interface MediaGalleryProps {
   readonly media: MediaGalleryAssets;
   readonly labels: MediaGalleryLabels;
-}
-
-/** FR-031 requires four images and one video before an auction can be presented. */
-export function hasRequiredAuctionMedia(media: MediaGalleryAssets): boolean {
-  return (
-    media.filter((asset) => asset.kind === "image").length >= 4 &&
-    media.some((asset) => asset.kind === "video")
-  );
 }
 
 export function MediaGallery({ media, labels }: MediaGalleryProps) {

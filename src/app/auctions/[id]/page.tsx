@@ -3,12 +3,10 @@ import type { Auction } from "../../../lib/api/types";
 import { ApiClient } from "../../../lib/api/api-client";
 import { formatMoney, translate } from "../../../lib/i18n";
 import { getRequestLocale } from "../../../lib/i18n/server";
+import { hasRequiredAuctionMedia } from "../../../lib/media";
 import { googleMapsUrl } from "../../../config/marketplace";
 import { DetailsTabs } from "../../../components/domain/DetailsTabs";
-import {
-  hasRequiredAuctionMedia,
-  MediaGallery,
-} from "../../../components/domain/MediaGallery";
+import { MediaGallery } from "../../../components/domain/MediaGallery";
 import { StatusBadge } from "../../../components/domain/StatusBadge";
 import {
   Breadcrumb,
