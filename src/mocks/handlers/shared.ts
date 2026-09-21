@@ -15,7 +15,6 @@ import type {
   ValidationFailureResult,
 } from "../../lib/api/result";
 import type { GatedIntent } from "../../lib/api/result";
-import { HttpResponse } from "msw";
 
 /** Canonical REST paths a data-client implementation must match. */
 export const apiRoutes = {
@@ -53,12 +52,12 @@ export const apiRoutes = {
 /* -------------------------------------------------------------------------- */
 
 export function success<D>(data: D): Response {
-  return HttpResponse.json<SuccessResult<D>>({ status: "success", data });
+  return Response.json({ status: "success", data } satisfies SuccessResult<D>);
 }
 
 export function gateRequired(request: Request, intent: GatedIntent): Response {
   const url = new URL(request.url);
-  return HttpResponse.json<GateRequiredResult>(
+  return Response.json(
     {
       status: "gateRequired",
       intent: { intent, returnTo: `${url.pathname}${url.search}` },
@@ -70,21 +69,21 @@ export function gateRequired(request: Request, intent: GatedIntent): Response {
 export function validationFailure(
   fieldErrors: Readonly<Record<string, string>>,
 ): Response {
-  return HttpResponse.json<ValidationFailureResult>(
+  return Response.json(
     { status: "validationFailure", fieldErrors },
     { status: 400 },
   );
 }
 
 export function serverError(message = "mock server unavailable"): Response {
-  return HttpResponse.json<ErrorResult>(
+  return Response.json(
     { status: "error", kind: "server", message, retryEligible: true },
     { status: 500 },
   );
 }
 
 export function notFound(message: string): Response {
-  return HttpResponse.json<ErrorResult>(
+  return Response.json(
     { status: "error", kind: "notFound", message, retryEligible: false },
     { status: 404 },
   );

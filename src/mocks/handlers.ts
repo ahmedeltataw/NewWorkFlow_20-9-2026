@@ -102,6 +102,7 @@ import {
   serverError,
   notFound,
 } from "./handlers/shared";
+import { resolvePublicMockRequest } from "./runtime-public";
 
 export { apiRoutes };
 
@@ -415,6 +416,12 @@ function isGated(scenario: MockScenario): boolean {
   return scenario === "guest";
 }
 
+function publicScenario(): "default" | "empty" | "error" {
+  return state.scenario === "empty" || state.scenario === "error"
+    ? state.scenario
+    : "default";
+}
+
 function urlOf(request: Request): URL {
   return new URL(request.url);
 }
@@ -474,59 +481,34 @@ function readMarketplaceQuery(url: URL): MarketplaceQuery {
 
 const handlers: readonly HttpHandler[] = [
   /* -------- Discovery: public, guest-accessible ------------------------- */
-  http.get(apiRoutes.homeFeed, async () => {
+  http.get(apiRoutes.homeFeed, async ({ request }) => {
     await waitForScenarioDelay();
-    if (state.scenario === "error") return serverError();
-    if (state.scenario === "empty") return success<readonly Auction[]>([]);
-    return success<readonly Auction[]>(homeFeedAuctions());
+    return resolvePublicMockRequest(request, publicScenario());
   }),
 
-  http.get(apiRoutes.categories, async () => {
+  http.get(apiRoutes.categories, async ({ request }) => {
     await waitForScenarioDelay();
-    if (state.scenario === "error") return serverError();
-    if (state.scenario === "empty") {
-      return success<readonly AuctionCategory[]>([]);
-    }
-    return success<readonly AuctionCategory[]>(
-      fixtureValueLists.auctionCategories,
-    );
+    return resolvePublicMockRequest(request, publicScenario());
   }),
 
   http.get(apiRoutes.auctions, async ({ request }) => {
     await waitForScenarioDelay();
-    if (state.scenario === "error") return serverError();
-    if (state.scenario === "empty") return success<readonly Auction[]>([]);
-    return success<readonly Auction[]>(
-      marketplaceAuctions(readMarketplaceQuery(urlOf(request))),
-    );
+    return resolvePublicMockRequest(request, publicScenario());
   }),
 
   http.get(apiRoutes.searchSuggestions, async ({ request }) => {
     await waitForScenarioDelay();
-    if (state.scenario === "error") return serverError();
-    if (state.scenario === "empty") return success<readonly string[]>([]);
-    const input = urlOf(request).searchParams.get("q")?.trim() ?? "";
-    if (!input) return success<readonly string[]>(popularSearchTerms);
-    return success<readonly string[]>(
-      popularSearchTerms.filter((term) =>
-        term.toLowerCase().includes(input.toLowerCase()),
-      ),
-    );
+    return resolvePublicMockRequest(request, publicScenario());
   }),
 
   http.get(apiRoutes.search, async ({ request }) => {
     await waitForScenarioDelay();
-    if (state.scenario === "error") return serverError();
-    if (state.scenario === "empty") return success<readonly Auction[]>([]);
-    const input = urlOf(request).searchParams.get("q")?.trim() ?? "";
-    return success<readonly Auction[]>(searchAuctionsByTerm(input));
+    return resolvePublicMockRequest(request, publicScenario());
   }),
 
-  http.get(apiRoutes.auctionById, async ({ params }) => {
+  http.get(apiRoutes.auctionById, async ({ request }) => {
     await waitForScenarioDelay();
-    if (state.scenario === "error") return serverError();
-    const auction = findAuctionById(pathParam(params, "auctionId"));
-    return auction ? success<Auction>(auction) : notFound("auction-not-found");
+    return resolvePublicMockRequest(request, publicScenario());
   }),
 
   /* -------- Session and auth -------------------------------------------- */
