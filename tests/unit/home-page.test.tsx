@@ -59,9 +59,7 @@ installMswLifecycle();
 /* ------------------------------------------------------------------ */
 
 function renderWithLocale(ui: React.ReactNode, locale: Locale = "ar") {
-  return render(
-    <LocaleProvider locale={locale}>{ui}</LocaleProvider>,
-  );
+  return render(<LocaleProvider locale={locale}>{ui}</LocaleProvider>);
 }
 
 /* ------------------------------------------------------------------ */
@@ -263,7 +261,6 @@ describe("Home page rendering (MSW mixed scenario)", () => {
         locale={locale}
         ariaLabel="المزادات النشطة"
         emptyTitleKey="home.empty.title"
-
       />,
     );
 
@@ -313,7 +310,6 @@ describe("Home page rendering (MSW mixed scenario)", () => {
         locale={locale}
         ariaLabel="المزادات النشطة"
         emptyTitleKey="home.empty.title"
-
       />,
     );
 
@@ -348,7 +344,6 @@ describe("Home page rendering (MSW mixed scenario)", () => {
         locale={locale}
         ariaLabel="المزادات النشطة"
         emptyTitleKey="home.empty.title"
-
       />,
     );
 

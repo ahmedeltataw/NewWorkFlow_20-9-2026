@@ -6,7 +6,6 @@ import { Skeleton } from "../primitives/Skeleton";
 import { Button } from "../primitives/Button";
 import { Icon } from "../primitives/Icon";
 
-
 export interface ScreenStateProps {
   readonly state: ScreenStateType;
   readonly loading?: ReactNode;
@@ -84,23 +83,21 @@ export function ScreenState({
 }: ScreenStateProps) {
   switch (state.state) {
     case "loading":
-      return loading ?? (
-        <DefaultLoading label={loadingLabel} />
-      );
+      return loading ?? <DefaultLoading label={loadingLabel} />;
 
     case "empty":
-      return empty ?? (
-        <DefaultEmpty label={emptyLabel} />
-      );
+      return empty ?? <DefaultEmpty label={emptyLabel} />;
 
     case "error":
-      return error ?? (
-        <DefaultError
-          label={errorLabel}
-          retryLabel={retryLabel}
-          retryEligible={state.retryEligible}
-          onRetry={onRetry}
-        />
+      return (
+        error ?? (
+          <DefaultError
+            label={errorLabel}
+            retryLabel={retryLabel}
+            retryEligible={state.retryEligible}
+            onRetry={onRetry}
+          />
+        )
       );
 
     case "ready":

@@ -104,8 +104,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
 
     // Remember what had focus before the dialog opened
     const active = document.activeElement;
-    previousFocus.current =
-      active instanceof HTMLElement ? active : null;
+    previousFocus.current = active instanceof HTMLElement ? active : null;
 
     // Move initial focus into the dialog
     dialog.focus({ preventScroll: true });
@@ -123,9 +122,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
 
       const focusables = Array.from(
         dialogRef.current!.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
-      ).filter(
-        (el) => !el.hidden && !el.closest('[aria-hidden="true"]'),
-      );
+      ).filter((el) => !el.hidden && !el.closest('[aria-hidden="true"]'));
 
       if (focusables.length === 0) {
         event.preventDefault();
@@ -179,7 +176,9 @@ export function Onboarding({ onComplete }: OnboardingProps) {
           <Icon name={slide.icon} size="lg" />
         </div>
         <div className="flex flex-col gap-2">
-          <h2 id="onboarding-title" className="text-h2 text-text-primary">{t(slide.titleKey)}</h2>
+          <h2 id="onboarding-title" className="text-h2 text-text-primary">
+            {t(slide.titleKey)}
+          </h2>
           <p className="text-body text-text-sub-text max-w-sm">
             {t(slide.descriptionKey)}
           </p>
@@ -223,9 +222,7 @@ export function Onboarding({ onComplete }: OnboardingProps) {
           <Button
             variant="outline"
             size="md"
-            onClick={() =>
-              handleLanguageToggle(locale === "ar" ? "en" : "ar")
-            }
+            onClick={() => handleLanguageToggle(locale === "ar" ? "en" : "ar")}
             aria-label={`${t("onboarding.selectLanguage")}: ${locale === "ar" ? "English" : "عربي"}`}
           >
             {locale === "ar" ? "English" : "عربي"}
@@ -266,7 +263,9 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                   : "w-2 bg-neutral-300",
                 FOCUS_RING,
               )}
-              aria-label={t("onboarding.slidePosition").replace("{0}", String(index + 1)).replace("{1}", String(SLIDES.length))}
+              aria-label={t("onboarding.slidePosition")
+                .replace("{0}", String(index + 1))
+                .replace("{1}", String(SLIDES.length))}
               aria-current={index === currentSlide ? "step" : undefined}
             />
           ))}
@@ -274,23 +273,11 @@ export function Onboarding({ onComplete }: OnboardingProps) {
 
         {/* Navigation buttons */}
         <footer className="mt-6 flex flex-col gap-3">
-          <Button
-            variant="solid"
-            size="lg"
-            fullWidth
-            onClick={goToNext}
-          >
-            {isLastSlide
-              ? t("onboarding.getStarted")
-              : t("onboarding.next")}
+          <Button variant="solid" size="lg" fullWidth onClick={goToNext}>
+            {isLastSlide ? t("onboarding.getStarted") : t("onboarding.next")}
           </Button>
           {!isLastSlide && (
-            <Button
-              variant="outline"
-              size="lg"
-              fullWidth
-              onClick={dismiss}
-            >
+            <Button variant="outline" size="lg" fullWidth onClick={dismiss}>
               {t("onboarding.skip")}
             </Button>
           )}

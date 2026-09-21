@@ -50,7 +50,11 @@ export function BannerCarousel({
   const prefersReducedMotion = useRef(false);
 
   useEffect(() => {
-    if (typeof window === "undefined" || typeof window.matchMedia !== "function") return;
+    if (
+      typeof window === "undefined" ||
+      typeof window.matchMedia !== "function"
+    )
+      return;
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     prefersReducedMotion.current = mq.matches;
     function onChange(e: MediaQueryListEvent) {
@@ -157,11 +161,16 @@ export function BannerCarousel({
                   : "bg-gradient-to-br from-primary-50 to-primary-100",
               )}
               style={
-                s.imageUrl ? { backgroundImage: `url(${s.imageUrl})` } : undefined
+                s.imageUrl
+                  ? { backgroundImage: `url(${s.imageUrl})` }
+                  : undefined
               }
             >
               {!s.imageUrl && (
-                <div className="absolute inset-0 bg-base-black/30" aria-hidden="true" />
+                <div
+                  className="absolute inset-0 bg-base-black/30"
+                  aria-hidden="true"
+                />
               )}
               <h2
                 className={cx(

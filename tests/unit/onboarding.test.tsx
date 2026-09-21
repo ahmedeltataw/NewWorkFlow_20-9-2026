@@ -16,9 +16,7 @@ vi.mock("next/navigation", () => ({
 }));
 
 function renderWithLocale(ui: React.ReactNode, locale: "ar" | "en" = "ar") {
-  return render(
-    <LocaleProvider locale={locale}>{ui}</LocaleProvider>,
-  );
+  return render(<LocaleProvider locale={locale}>{ui}</LocaleProvider>);
 }
 
 const storage = new Map<string, string>();
@@ -29,10 +27,18 @@ beforeEach(() => {
   Object.defineProperty(window, "localStorage", {
     value: {
       getItem: (key: string) => storage.get(key) ?? null,
-      setItem: (key: string, value: string) => { storage.set(key, value); },
-      removeItem: (key: string) => { storage.delete(key); },
-      clear: () => { storage.clear(); },
-      get length() { return storage.size; },
+      setItem: (key: string, value: string) => {
+        storage.set(key, value);
+      },
+      removeItem: (key: string) => {
+        storage.delete(key);
+      },
+      clear: () => {
+        storage.clear();
+      },
+      get length() {
+        return storage.size;
+      },
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       key: (_index: number) => null,
     },
@@ -148,7 +154,9 @@ describe("T030 Onboarding persistence", () => {
 
       // The backdrop is the sibling before the dialog panel
       const dialog = screen.getByRole("dialog");
-      const backdrop = dialog.parentElement!.querySelector("[aria-hidden='true']");
+      const backdrop = dialog.parentElement!.querySelector(
+        "[aria-hidden='true']",
+      );
       expect(backdrop).not.toBeNull();
 
       await user.click(backdrop!);

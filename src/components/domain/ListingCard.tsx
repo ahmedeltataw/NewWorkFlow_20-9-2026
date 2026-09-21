@@ -65,7 +65,10 @@ export function ListingCard({
           loading="lazy"
         />
         <div className="absolute start-2 top-2">
-          <StatusBadge status={status} label={translate(locale, statusLabelKey)} />
+          <StatusBadge
+            status={status}
+            label={translate(locale, statusLabelKey)}
+          />
         </div>
       </a>
 
@@ -84,7 +87,9 @@ export function ListingCard({
               className="h-5 w-5 shrink-0 rounded-full object-cover"
               aria-hidden="true"
             />
-          ) : seller.kind === "individual" && "photoUrl" in seller && seller.photoUrl ? (
+          ) : seller.kind === "individual" &&
+            "photoUrl" in seller &&
+            seller.photoUrl ? (
             <img
               src={seller.photoUrl}
               alt=""

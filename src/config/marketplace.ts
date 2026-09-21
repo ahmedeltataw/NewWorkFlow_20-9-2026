@@ -443,8 +443,7 @@ export const homeBanners: readonly BannerItem[] = [
 
 export const marketplaceConfig = {
   /** Absolute base URL for API fetch calls; avoids relative URL failures in Node. */
-  apiBaseUrl:
-    process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3000",
+  apiBaseUrl: process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3000",
   home: {
     banners: homeBanners,
     carousel: homeCarouselDefaults,

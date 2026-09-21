@@ -172,15 +172,12 @@ const guestDiscoveryActiveEndedFilter: DiscoveryScenario = {
       if (companyName) {
         results = results.filter(
           (a) =>
-            a.seller.kind === "company" &&
-            a.seller.name.includes(companyName),
+            a.seller.kind === "company" && a.seller.name.includes(companyName),
         );
       }
       if (query) {
         const needle = query.toLowerCase();
-        results = results.filter((a) =>
-          a.title.toLowerCase().includes(needle),
-        );
+        results = results.filter((a) => a.title.toLowerCase().includes(needle));
       }
 
       return success<readonly Auction[]>(results);
@@ -329,8 +326,7 @@ const guestDiscoveryCompanySellers: DiscoveryScenario = {
       if (companyName) {
         results = results.filter(
           (a) =>
-            a.seller.kind === "company" &&
-            a.seller.name.includes(companyName),
+            a.seller.kind === "company" && a.seller.name.includes(companyName),
         );
       }
 
@@ -570,8 +566,7 @@ const allScenarios = [
 ] as const;
 
 /** Type-safe union of all valid discovery scenario names. */
-export type DiscoveryScenarioName =
-  (typeof allScenarios)[number]["name"];
+export type DiscoveryScenarioName = (typeof allScenarios)[number]["name"];
 
 /** Lookup by name; returns the matching scenario's handlers. */
 export function discoveryScenarioHandlers(

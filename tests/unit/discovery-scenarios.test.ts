@@ -124,9 +124,7 @@ describe("T027 guest discovery scenarios", () => {
     it("every result has a company seller", async () => {
       activate("guest-discovery/company-sellers");
 
-      const res = await fetch(
-        `${BASE}/api/auctions?sellerKind=company`,
-      );
+      const res = await fetch(`${BASE}/api/auctions?sellerKind=company`);
       const body = (await res.json()) as {
         status: string;
         data: readonly { seller: { kind: string } }[];
@@ -144,9 +142,7 @@ describe("T027 guest discovery scenarios", () => {
     it("status=live returns only live auctions", async () => {
       activate("guest-discovery/active-ended-filter");
 
-      const res = await fetch(
-        `${BASE}/api/auctions?status=live`,
-      );
+      const res = await fetch(`${BASE}/api/auctions?status=live`);
       const body = (await res.json()) as {
         status: string;
         data: readonly { status: string }[];
@@ -162,9 +158,7 @@ describe("T027 guest discovery scenarios", () => {
     it("status=ended returns only ended auctions", async () => {
       activate("guest-discovery/active-ended-filter");
 
-      const res = await fetch(
-        `${BASE}/api/auctions?status=ended`,
-      );
+      const res = await fetch(`${BASE}/api/auctions?status=ended`);
       const body = (await res.json()) as {
         status: string;
         data: readonly { status: string }[];
@@ -182,9 +176,7 @@ describe("T027 guest discovery scenarios", () => {
     it("filters by category=vehicle", async () => {
       activate("guest-discovery/category-vehicle");
 
-      const res = await fetch(
-        `${BASE}/api/auctions?category=vehicle`,
-      );
+      const res = await fetch(`${BASE}/api/auctions?category=vehicle`);
       const body = (await res.json()) as {
         status: string;
         data: readonly { category: string }[];
@@ -246,9 +238,7 @@ describe("T027 guest discovery scenarios", () => {
     it("returns a known auction", async () => {
       activate("guest-discovery/auction-detail");
 
-      const res = await fetch(
-        `${BASE}/api/auctions/fx-guest-live-vehicle`,
-      );
+      const res = await fetch(`${BASE}/api/auctions/fx-guest-live-vehicle`);
       const body = (await res.json()) as {
         status: string;
         data: { id: string; status: string };
@@ -262,9 +252,7 @@ describe("T027 guest discovery scenarios", () => {
     it("returns 404 for unknown auction", async () => {
       activate("guest-discovery/auction-detail");
 
-      const res = await fetch(
-        `${BASE}/api/auctions/no-such-auction`,
-      );
+      const res = await fetch(`${BASE}/api/auctions/no-such-auction`);
       const body = (await res.json()) as {
         status: string;
         kind: string;

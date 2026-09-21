@@ -76,9 +76,7 @@ export function validationFailure(
   );
 }
 
-export function serverError(
-  message = "mock server unavailable",
-): Response {
+export function serverError(message = "mock server unavailable"): Response {
   return HttpResponse.json<ErrorResult>(
     { status: "error", kind: "server", message, retryEligible: true },
     { status: 500 },
