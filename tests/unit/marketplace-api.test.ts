@@ -23,3 +23,32 @@ describe("ApiClient.queryMarketplace", () => {
     );
   });
 });
+
+describe("ApiClient.getAuctionDetail", () => {
+  afterEach(() => vi.unstubAllGlobals());
+
+  it("returns the API error envelope for an unknown auction instead of throwing", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          status: "error",
+          kind: "notFound",
+          message: "auction-not-found",
+          retryEligible: false,
+        }),
+        { status: 404 },
+      ),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    await expect(new ApiClient().getAuctionDetail("missing")).resolves.toEqual({
+      status: "error",
+      kind: "notFound",
+      message: "auction-not-found",
+      retryEligible: false,
+    });
+    expect(fetchMock).toHaveBeenCalledWith(
+      "http://localhost:3000/api/auctions/missing",
+    );
+  });
+});

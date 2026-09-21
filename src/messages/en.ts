@@ -41,6 +41,22 @@ export const messagesEn: Messages = {
 
   "seller.privateOwner": "Private owner",
 
+  "auctionDetail.breadcrumb": "Auction details",
+  "auctionDetail.gallery": "Media gallery",
+  "auctionDetail.previousMedia": "Previous media",
+  "auctionDetail.nextMedia": "Next media",
+  "auctionDetail.videoDescription": "Video description: {0}",
+  "auctionDetail.mediaInvalid":
+    "This auction cannot be shown because its required media is incomplete.",
+  "auctionDetail.specifications": "Specifications",
+  "auctionDetail.features": "Features",
+  "auctionDetail.inspection": "Inspection report",
+  "auctionDetail.seller": "Seller",
+  "auctionDetail.previousAuctions": "Previous auctions",
+  "auctionDetail.location": "Location",
+  "auctionDetail.openMaps": "Open location in Google Maps",
+  "auctionDetail.notFound": "Auction not found",
+
   "currency.sar": "Saudi Riyal",
   "currency.bhd": "Bahraini Dinar",
 

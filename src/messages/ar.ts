@@ -46,6 +46,22 @@ export const messagesAr = {
 
   "seller.privateOwner": "مالك خاص",
 
+  "auctionDetail.breadcrumb": "تفاصيل المزاد",
+  "auctionDetail.gallery": "معرض الوسائط",
+  "auctionDetail.previousMedia": "الوسائط السابقة",
+  "auctionDetail.nextMedia": "الوسائط التالية",
+  "auctionDetail.videoDescription": "وصف الفيديو: {0}",
+  "auctionDetail.mediaInvalid":
+    "تعذر عرض هذا المزاد لأن الوسائط المطلوبة غير مكتملة.",
+  "auctionDetail.specifications": "المواصفات",
+  "auctionDetail.features": "المزايا",
+  "auctionDetail.inspection": "تقرير الفحص",
+  "auctionDetail.seller": "البائع",
+  "auctionDetail.previousAuctions": "المزادات السابقة",
+  "auctionDetail.location": "الموقع",
+  "auctionDetail.openMaps": "فتح الموقع في خرائط Google",
+  "auctionDetail.notFound": "لم يتم العثور على المزاد",
+
   "currency.sar": "ريال سعودي",
   "currency.bhd": "دينار بحريني",
 

@@ -344,6 +344,17 @@ export const countdownUrgencyMinutes = 60;
 export const paymentMethodDefaults = ["wallet", "online"] as const;
 export type PaymentMethodId = (typeof paymentMethodDefaults)[number];
 
+/** Google Maps location URL; the query is substituted from the auction location label. */
+export const googleMapsUrlTemplate =
+  "https://www.google.com/maps/search/?api=1&query={query}";
+
+export function googleMapsUrl(locationLabel: string): string {
+  return googleMapsUrlTemplate.replace(
+    "{query}",
+    encodeURIComponent(locationLabel),
+  );
+}
+
 export interface Bank {
   readonly id: string;
   readonly nameKey: MessageKey;
@@ -546,6 +557,9 @@ export const marketplaceConfig = {
   payments: {
     methods: paymentMethodDefaults,
     banks,
+  },
+  maps: {
+    urlTemplate: googleMapsUrlTemplate,
   },
   fees: feeDefaults,
   relist: relistDefaults,

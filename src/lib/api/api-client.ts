@@ -127,8 +127,23 @@ export class ApiClient implements AuctionMarketplaceClient {
     return envelope as CollectionResult<Auction>;
   }
 
-  async getAuctionDetail(_auctionId: string): Promise<Result<Auction>> {
-    throw new Error("Not implemented in ApiClient stub");
+  async getAuctionDetail(auctionId: string): Promise<Result<Auction>> {
+    const res = await fetch(
+      `${BASE}/api/auctions/${encodeURIComponent(auctionId)}`,
+    );
+    const envelope = (await res.json()) as {
+      readonly status: string;
+      readonly data?: Auction;
+      readonly kind?: string;
+      readonly message?: string;
+      readonly retryEligible?: boolean;
+      readonly fieldErrors?: Readonly<Record<string, string>>;
+      readonly intent?: unknown;
+    };
+    if (envelope.status === "success" && envelope.data) {
+      return { status: "success", data: envelope.data };
+    }
+    return envelope as Result<Auction>;
   }
 
   async getSession(): Promise<Result<Account | null>> {
