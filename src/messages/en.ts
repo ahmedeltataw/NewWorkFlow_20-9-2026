@@ -116,6 +116,13 @@ export const messagesEn: Messages = {
 
   "filters.licensePlate.priceLimit": "Price limit",
 
+  "marketplace.title": "Auctions",
+  "marketplace.filters": "Filters",
+  "marketplace.openFilters": "Open filters",
+  "marketplace.applyFilters": "Apply filters",
+  "marketplace.results.ariaLabel": "Auction results",
+  "marketplace.empty.title": "No matching auctions",
+
   "banks.alrajhi": "Al Rajhi Bank",
   "banks.snb": "Saudi National Bank",
   "banks.riyad": "Riyad Bank",
@@ -162,7 +169,10 @@ export const messagesEn: Messages = {
   "home.banner.slideTitle.1": "Discover trending auctions",
   "home.banner.slideTitle.2": "Live auctions in real time",
   "home.banner.slideTitle.3": "Exclusive opportunities",
-  "home.banner.slideDescription.1": "Browse thousands of auctions for vehicles, real estate, and license plates",
-  "home.banner.slideDescription.2": "Join live auctions and bid easily and securely",
-  "home.banner.slideDescription.3": "Bid, win auctions, and settle through a secure payment system",
+  "home.banner.slideDescription.1":
+    "Browse thousands of auctions for vehicles, real estate, and license plates",
+  "home.banner.slideDescription.2":
+    "Join live auctions and bid easily and securely",
+  "home.banner.slideDescription.3":
+    "Bid, win auctions, and settle through a secure payment system",
 };

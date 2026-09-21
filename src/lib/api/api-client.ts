@@ -6,10 +6,7 @@
  * http://localhost:3000 so MSW intercepts in tests.
  */
 
-import type {
-  AuctionMarketplaceClient,
-  MarketplaceQuery,
-} from "./client";
+import type { AuctionMarketplaceClient, MarketplaceQuery } from "./client";
 import type { CollectionResult, Result } from "./result";
 import type {
   Account,
@@ -68,9 +65,18 @@ export class ApiClient implements AuctionMarketplaceClient {
   }
 
   async queryMarketplace(
-    _query: MarketplaceQuery,
+    query: MarketplaceQuery,
   ): Promise<CollectionResult<Auction>> {
-    throw new Error("Not implemented in ApiClient stub");
+    const params = new URLSearchParams();
+    for (const [key, value] of Object.entries(query)) {
+      if (value !== undefined && value !== "") params.set(key, value);
+    }
+    const search = params.toString();
+    const envelope = await fetchJson<{
+      readonly status: string;
+      readonly data: readonly Auction[];
+    }>(`/api/auctions${search ? `?${search}` : ""}`);
+    return { status: "success", data: unwrap(envelope) };
   }
 
   async getSearchSuggestions(
@@ -134,9 +140,7 @@ export class ApiClient implements AuctionMarketplaceClient {
     throw new Error("Not implemented in ApiClient stub");
   }
 
-  async withdrawFromAuction(
-    _auctionId: string,
-  ): Promise<Result<Participant>> {
+  async withdrawFromAuction(_auctionId: string): Promise<Result<Participant>> {
     throw new Error("Not implemented in ApiClient stub");
   }
 
@@ -151,7 +155,9 @@ export class ApiClient implements AuctionMarketplaceClient {
     throw new Error("Not implemented in ApiClient stub");
   }
 
-  async getRelistOffer(_auctionId: string): Promise<Result<DirectSaleRelistOffer>> {
+  async getRelistOffer(
+    _auctionId: string,
+  ): Promise<Result<DirectSaleRelistOffer>> {
     throw new Error("Not implemented in ApiClient stub");
   }
 

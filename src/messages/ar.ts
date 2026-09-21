@@ -121,6 +121,13 @@ export const messagesAr = {
 
   "filters.licensePlate.priceLimit": "الحد الأعلى للسعر",
 
+  "marketplace.title": "المزادات",
+  "marketplace.filters": "الفلاتر",
+  "marketplace.openFilters": "فتح الفلاتر",
+  "marketplace.applyFilters": "تطبيق الفلاتر",
+  "marketplace.results.ariaLabel": "نتائج المزادات",
+  "marketplace.empty.title": "لا توجد مزادات مطابقة",
+
   "banks.alrajhi": "مصرف الراجحي",
   "banks.snb": "البنك الأهلي السعودي",
   "banks.riyad": "بنك الرياض",
@@ -167,7 +174,8 @@ export const messagesAr = {
   "home.banner.slideTitle.1": "اكتشف المزادات الرائجة",
   "home.banner.slideTitle.2": "مزادات حية بالوقت الحقيقي",
   "home.banner.slideTitle.3": "فرص حصرية لا تفوّتها",
-  "home.banner.slideDescription.1": "تصفح آلاف المزادات على السيارات والعقارات واللوحات المرورية",
+  "home.banner.slideDescription.1":
+    "تصفح آلاف المزادات على السيارات والعقارات واللوحات المرورية",
   "home.banner.slideDescription.2": "شارك في المزادات الحية ومزدد بسهولة وأمان",
   "home.banner.slideDescription.3": "ازايد واربح المزاد مع نظام دفع وتسوية آمن",
 } satisfies Record<string, string>;
