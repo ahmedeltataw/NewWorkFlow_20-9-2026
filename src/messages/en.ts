@@ -27,6 +27,13 @@ export const messagesEn: Messages = {
   "common.favorite": "Favorite",
   "common.removeFavorite": "Remove from favorites",
 
+  "auth.loginRequired.title": "Sign in to continue",
+  "auth.loginRequired.description": "Sign in to complete the action you chose.",
+  "auth.loginRequired.continue": "Sign in",
+  "auth.phone.title": "Sign in",
+  "auth.phone.description":
+    "Complete sign-in to return to the action you chose.",
+
   "status.upcoming": "Upcoming",
   "status.live": "Live",
   "status.ended": "Ended",

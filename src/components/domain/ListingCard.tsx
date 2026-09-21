@@ -1,9 +1,14 @@
+"use client";
+
 import type { AuctionStatus, Seller } from "../../lib/api/types";
+import type { PreservedIntent } from "../../lib/api/result";
 import type { MessageKey } from "../../messages/ar";
+import { useState } from "react";
 import { translate } from "../../lib/i18n";
 import type { Locale } from "../../lib/api/types";
 import { FavoriteButton } from "./FavoriteButton";
 import { StatusBadge } from "./StatusBadge";
+import { LoginRequired } from "../../features/auth/LoginRequired";
 
 export interface ListingCardProps {
   readonly id: string;
@@ -48,8 +53,23 @@ export function ListingCard({
   href,
   locale,
 }: ListingCardProps) {
+  const [isLoginRequiredOpen, setLoginRequiredOpen] = useState(false);
+  const [loginIntent, setLoginIntent] = useState<PreservedIntent | null>(null);
   const resolvedHref = href ?? `/auctions/${id}`;
   const sellerName = sellerDisplayName(seller, locale);
+
+  function requireLogin(): void {
+    if (onRequireLogin) {
+      onRequireLogin();
+      return;
+    }
+    const returnTo =
+      typeof window === "undefined"
+        ? "/"
+        : `${window.location.pathname}${window.location.search}`;
+    setLoginIntent({ intent: "favorite", returnTo });
+    setLoginRequiredOpen(true);
+  }
 
   return (
     <article className="relative flex flex-col overflow-hidden rounded-lg bg-surface-white-bg shadow-card">
@@ -117,12 +137,17 @@ export function ListingCard({
           <FavoriteButton
             isFavorited={isFavorited}
             onToggle={onFavoriteToggle}
-            onRequireLogin={onRequireLogin}
+            onRequireLogin={requireLogin}
             label={translate(locale, "common.favorite")}
             removeLabel={translate(locale, "common.removeFavorite")}
           />
         </div>
       </div>
+      <LoginRequired
+        open={isLoginRequiredOpen}
+        onOpenChange={setLoginRequiredOpen}
+        intent={loginIntent ?? { intent: "favorite", returnTo: "/" }}
+      />
     </article>
   );
 }

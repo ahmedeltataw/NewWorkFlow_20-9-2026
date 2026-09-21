@@ -32,6 +32,12 @@ export const messagesAr = {
   "common.favorite": "إضافة إلى المفضلة",
   "common.removeFavorite": "إزالة من المفضلة",
 
+  "auth.loginRequired.title": "سجّل الدخول للمتابعة",
+  "auth.loginRequired.description": "سجّل الدخول لإكمال الإجراء الذي اخترته.",
+  "auth.loginRequired.continue": "تسجيل الدخول",
+  "auth.phone.title": "تسجيل الدخول",
+  "auth.phone.description": "أكمل تسجيل الدخول للعودة إلى الإجراء الذي اخترته.",
+
   "status.upcoming": "قادم",
   "status.live": "حالي",
   "status.ended": "منتهي",
