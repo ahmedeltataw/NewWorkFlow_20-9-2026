@@ -80,13 +80,51 @@ export class ApiClient implements AuctionMarketplaceClient {
   }
 
   async getSearchSuggestions(
-    _input: string,
+    input: string,
   ): Promise<Result<readonly string[]>> {
-    throw new Error("Not implemented in ApiClient stub");
+    const params = new URLSearchParams();
+    if (input.trim()) params.set("q", input.trim());
+    const search = params.toString();
+    const res = await fetch(
+      `${BASE}/api/search/suggestions${search ? `?${search}` : ""}`,
+    );
+    const envelope = (await res.json()) as {
+      readonly status: string;
+      readonly data?: readonly string[];
+      readonly kind?: string;
+      readonly message?: string;
+      readonly retryEligible?: boolean;
+      readonly fieldErrors?: Readonly<Record<string, string>>;
+      readonly intent?: unknown;
+    };
+    if (envelope.status === "success") {
+      return { status: "success", data: envelope.data ?? [] };
+    }
+    return envelope as Result<readonly string[]>;
   }
 
-  async searchAuctions(_input: string): Promise<CollectionResult<Auction>> {
-    throw new Error("Not implemented in ApiClient stub");
+  async searchAuctions(
+    input: string,
+    category?: AuctionCategory,
+  ): Promise<CollectionResult<Auction>> {
+    const params = new URLSearchParams();
+    if (input.trim()) params.set("q", input.trim());
+    if (category) params.set("category", category);
+    const search = params.toString();
+    const res = await fetch(`${BASE}/api/search${search ? `?${search}` : ""}`);
+    const envelope = (await res.json()) as {
+      readonly status: string;
+      readonly data?: readonly Auction[];
+      readonly kind?: string;
+      readonly message?: string;
+      readonly retryEligible?: boolean;
+      readonly fieldErrors?: Readonly<Record<string, string>>;
+      readonly intent?: unknown;
+    };
+    if (envelope.status === "success") {
+      return { status: "success", data: envelope.data ?? [] };
+    }
+    return envelope as CollectionResult<Auction>;
   }
 
   async getAuctionDetail(_auctionId: string): Promise<Result<Auction>> {

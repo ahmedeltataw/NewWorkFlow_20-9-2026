@@ -178,8 +178,16 @@ export const messagesAr = {
     "تصفح آلاف المزادات على السيارات والعقارات واللوحات المرورية",
   "home.banner.slideDescription.2": "شارك في المزادات الحية ومزدد بسهولة وأمان",
   "home.banner.slideDescription.3": "ازايد واربح المزاد مع نظام دفع وتسوية آمن",
-} satisfies Record<string, string>;
 
+  "search.title": "بحث",
+  "search.placeholder": "ابحث عن مزاد",
+  "search.noResults.title": "لا توجد نتائج",
+  "search.noResults.description": "جرب كلمات بحث مختلفة",
+  "search.suggestions.ariaLabel": "اقتراحات البحث",
+  "search.suggestions.count": "{0} اقتراحات متاحة",
+  "search.results.ariaLabel": "نتائج البحث",
+  "search.inferredCategory": "الفئة: {0}",
+} satisfies Record<string, string>;
 /**
  * Shape of every catalogue. Arabic is the reference shape; `en.ts` is typed
  * against it so a divergence in either direction is a TypeScript error. Values

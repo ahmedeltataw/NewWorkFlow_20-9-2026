@@ -175,4 +175,13 @@ export const messagesEn: Messages = {
     "Join live auctions and bid easily and securely",
   "home.banner.slideDescription.3":
     "Bid, win auctions, and settle through a secure payment system",
+
+  "search.title": "Search",
+  "search.placeholder": "Search for an auction",
+  "search.noResults.title": "No results found",
+  "search.noResults.description": "Try different search terms",
+  "search.suggestions.ariaLabel": "Search suggestions",
+  "search.suggestions.count": "{0} suggestions available",
+  "search.results.ariaLabel": "Search results",
+  "search.inferredCategory": "Category: {0}",
 };

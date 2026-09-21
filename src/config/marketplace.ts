@@ -441,6 +441,92 @@ export const homeBanners: readonly BannerItem[] = [
   },
 ] as const;
 
+/**
+ * Category inference mapping (FR-021). When a search term contains one of
+ * these keywords, the results are scoped to the mapped category. When no
+ * keyword matches, results are returned unscoped rather than empty (edge case).
+ * Both Arabic and English terms are included; the operator controls this list.
+ */
+export const categoryInferenceTerms: Readonly<
+  Record<AuctionCategory, readonly string[]>
+> = {
+  vehicle: [
+    "سيارة",
+    "سيارات",
+    "car",
+    "cars",
+    "vehicle",
+    "vehicles",
+    "تايوتا",
+    "تويوتا",
+    "toyota",
+    "هوندا",
+    "honda",
+    "فورد",
+    "ford",
+    "بي ام دبليو",
+    "bmw",
+    "مرسيدس",
+    "mercedes",
+    "أودي",
+    "audi",
+    "لاند كروزر",
+    "land cruiser",
+    "كامري",
+    "camry",
+  ],
+  realEstate: [
+    "عقار",
+    "عقارات",
+    "real estate",
+    "property",
+    "فيلا",
+    "villa",
+    "شقة",
+    "apartment",
+    "أرض",
+    "land",
+    "مكتب",
+    "office",
+    "محل",
+    "shop",
+    "منزل",
+    "house",
+    "بنتهاوس",
+    "penthouse",
+  ],
+  licensePlate: [
+    "لوحة",
+    "لوحات",
+    "plate",
+    "plates",
+    "رقمي",
+    "رقمي",
+    "vanity",
+    "private",
+    "مميزة",
+    "خاصة",
+    "عادية",
+    "standard",
+  ],
+};
+
+/**
+ * Infer an auction category from a search term. Returns undefined when no
+ * category keyword matches, which means results should be returned unscoped.
+ */
+export function inferCategory(term: string): AuctionCategory | undefined {
+  const lower = term.toLowerCase();
+  for (const [category, keywords] of Object.entries(categoryInferenceTerms)) {
+    for (const keyword of keywords) {
+      if (lower.includes(keyword.toLowerCase())) {
+        return category as AuctionCategory;
+      }
+    }
+  }
+  return undefined;
+}
+
 export const marketplaceConfig = {
   /** Absolute base URL for API fetch calls; avoids relative URL failures in Node. */
   apiBaseUrl: process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:3000",
@@ -465,4 +551,7 @@ export const marketplaceConfig = {
   relist: relistDefaults,
   thresholds: thresholdDefaults,
   capabilities: capabilityDefaults,
+  search: {
+    categoryInferenceTerms,
+  },
 } as const;

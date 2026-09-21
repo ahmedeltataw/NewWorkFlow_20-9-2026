@@ -95,7 +95,10 @@ export interface AuctionMarketplaceClient {
   getCategories(): Promise<Result<readonly AuctionCategory[]>>;
   queryMarketplace(query: MarketplaceQuery): Promise<CollectionResult<Auction>>;
   getSearchSuggestions(input: string): Promise<Result<readonly string[]>>;
-  searchAuctions(input: string): Promise<CollectionResult<Auction>>;
+  searchAuctions(
+    input: string,
+    category?: AuctionCategory,
+  ): Promise<CollectionResult<Auction>>;
   getAuctionDetail(auctionId: string): Promise<Result<Auction>>;
 
   getSession(): Promise<Result<Account | null>>;
