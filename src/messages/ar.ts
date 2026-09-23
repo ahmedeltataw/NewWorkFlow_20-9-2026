@@ -16,6 +16,87 @@
  */
 
 export const messagesAr = {
+  "auth.phoneForm.country": "الدولة",
+  "auth.phoneForm.country.saudi": "السعودية (+966)",
+  "auth.phoneForm.country.bahrain": "البحرين (+973)",
+  "auth.phoneForm.phoneNumber": "رقم الجوال",
+  "auth.phoneForm.sendCode": "إرسال الرمز",
+  "auth.phoneForm.invalidCountry": "اختر دولة صحيحة",
+  "auth.phoneForm.invalidSaudi":
+    "أدخل رقم جوال سعوديًا من {digits} أرقام يبدأ بالرقم {prefix}",
+  "auth.phoneForm.invalidBahrain": "أدخل رقم هاتف بحرينيًا من {digits} أرقام",
+  "auth.phoneForm.sendFailed": "تعذر إرسال الرمز. حاول مرة أخرى.",
+
+  "auth.otp.title": "تحقق من رقم جوالك",
+  "auth.otp.verificationCode": "رمز التحقق",
+  "auth.otp.digit": "الرقم {number} من رمز التحقق",
+  "auth.otp.verifyCode": "التحقق من الرمز",
+  "auth.otp.invalidCode": "أدخل رمز التحقق المكوّن من ستة أرقام",
+  "auth.otp.rejectedCode": "رمز التحقق غير صحيح أو انتهت صلاحيته",
+  "auth.otp.resendCountdown": "إعادة إرسال الرمز خلال {time}",
+  "auth.otp.resendAvailableIn": "ستتاح إعادة إرسال الرمز خلال {seconds} ثانية",
+  "auth.otp.resendAvailable": "يمكنك إعادة إرسال الرمز الآن",
+  "auth.otp.resend": "إعادة إرسال الرمز",
+
+  "auth.accountType.title": "اختر نوع الحساب",
+  "auth.accountType.individual": "فرد",
+  "auth.accountType.company": "شركة",
+
+  "auth.details.individualTitle": "بيانات الفرد",
+  "auth.details.companyTitle": "بيانات الشركة",
+  "auth.details.nationality": "الجنسية",
+  "auth.details.saudi": "سعودي",
+  "auth.details.nonSaudi": "غير سعودي",
+  "auth.details.nationalId": "رقم الهوية الوطنية",
+  "auth.details.birthDate": "تاريخ الميلاد ({calendar})",
+  "auth.details.day": "اليوم",
+  "auth.details.month": "الشهر",
+  "auth.details.year": "السنة",
+  "auth.details.invalidNationalId":
+    "يجب أن يتكون رقم الهوية من {digits} أرقام وأن يبدأ بالرقم {first} أو {second}",
+  "auth.details.invalidHijriDay": "أدخل يومًا هجريًا بين {minimum} و{maximum}",
+  "auth.details.invalidHijriMonth":
+    "أدخل شهرًا هجريًا بين {minimum} و{maximum}",
+  "auth.details.invalidHijriYear": "أدخل سنة هجرية بين {minimum} و{maximum}",
+  "auth.details.invalidGregorianDay": "أدخل تاريخًا ميلاديًا صحيحًا",
+  "auth.details.invalidGregorianMonth":
+    "أدخل شهرًا ميلاديًا بين {minimum} و{maximum}",
+  "auth.details.invalidGregorianYear":
+    "أدخل سنة ميلادية من {minimum} حتى السنة الحالية",
+  "auth.details.futureDate": "لا يمكن أن يكون تاريخ الميلاد في المستقبل",
+  "auth.details.submitFailed": "تعذر حفظ بياناتك",
+  "auth.details.continue": "متابعة التحقق",
+
+  "auth.company.name": "اسم الشركة",
+  "auth.company.nameRequired": "أدخل اسم شركتك",
+  "auth.company.submitFailed": "تعذر إرسال بيانات الشركة",
+  "auth.company.underReview": "البيع غير متاح أثناء مراجعة شركتك",
+  "auth.company.submit": "إرسال بيانات الشركة",
+
+  "auth.verify.title": "موفر الهوية الوطنية التجريبي",
+  "auth.verify.description": "اختر نتيجة تحقق تجريبية.",
+  "auth.verify.approve": "موافقة",
+  "auth.verify.decline": "رفض",
+  "auth.verify.cancel": "إلغاء",
+
+  "auth.identity.completing": "جارٍ إكمال التحقق من الهوية",
+  "auth.identity.success": "تم التحقق من الهوية بنجاح",
+  "auth.identity.failure": "فشل التحقق من الهوية",
+  "auth.identity.abandoned": "تم إلغاء التحقق من الهوية",
+  "auth.identity.completionError": "تعذر إكمال التحقق من الهوية",
+  "auth.identity.retry": "إعادة محاولة التحقق",
+
+  "auth.review.title": "مراجعة الشركة",
+  "auth.review.loading": "جارٍ تحميل حالة مراجعة الشركة",
+  "auth.review.empty": "لا تتوفر حالة مراجعة للشركة",
+  "auth.review.error": "تعذر تحميل حالة مراجعة الشركة",
+  "auth.review.retry": "حاول مرة أخرى",
+  "auth.review.available": "البيع متاح",
+  "auth.review.unavailable": "البيع غير متاح حتى تفعيل شركتك",
+  "auth.review.step.submitted": "تم الإرسال",
+  "auth.review.step.underReview": "قيد المراجعة",
+  "auth.review.step.activated": "تم التفعيل",
+
   "app.name": "المزاد الدولي",
 
   "common.loading": "جارٍ التحميل",
@@ -37,6 +118,7 @@ export const messagesAr = {
   "auth.loginRequired.continue": "تسجيل الدخول",
   "auth.phone.title": "تسجيل الدخول",
   "auth.phone.description": "أكمل تسجيل الدخول للعودة إلى الإجراء الذي اخترته.",
+  "auth.brand.tagline": "مزادات دولية للسيارات والعقار واللوحات",
 
   "status.upcoming": "قادم",
   "status.live": "حالي",

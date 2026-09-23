@@ -38,7 +38,7 @@ export function Radio({ size = "sm", label, className, ...props }: RadioProps) {
       <span
         aria-hidden="true"
         className={cx(
-          "inline-flex shrink-0 items-center justify-center",
+          "pointer-events-none inline-flex shrink-0 items-center justify-center",
           BOX_STATES,
           BOX_FOCUS,
           CONTROL_BOX_SIZES[size],

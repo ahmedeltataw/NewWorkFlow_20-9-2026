@@ -6,6 +6,7 @@ import type {
   AutoBidState,
   BidSource,
   Deposit,
+  DateOfBirth,
   DirectSaleRelistOffer,
   IdentityVerification,
   Money,
@@ -72,6 +73,7 @@ export interface IndividualRegistration {
   readonly nationality: "saudi" | "nonSaudi";
   readonly nationalId: string;
   readonly dateCalendar: NationalIdCalendar;
+  readonly dateOfBirth: DateOfBirth;
 }
 
 export interface CompanyRegistration {
@@ -103,11 +105,19 @@ export interface AuctionMarketplaceClient {
 
   getSession(): Promise<Result<Account | null>>;
   requestOtpCode(phone: PhoneNumber): Promise<Result<PhoneNumber>>;
+  verifyOtpCode(code: string): Promise<Result<Account>>;
+  getNationalIdCalendar(nationalId: string): Promise<
+    Result<{
+      readonly calendar: NationalIdCalendar;
+      readonly nationalId: string;
+    }>
+  >;
   registerIndividual(input: IndividualRegistration): Promise<Result<Account>>;
   registerCompany(input: CompanyRegistration): Promise<Result<Account>>;
   completeIdentityVerification(
     input: IdentityVerificationReturn,
   ): Promise<Result<Account>>;
+  getCompanyReview(): Promise<Result<Account>>;
 
   getDeposit(auctionId: string, accountId: string): Promise<Result<Deposit>>;
   payDeposit(input: PayDepositRequest): Promise<Result<Deposit>>;

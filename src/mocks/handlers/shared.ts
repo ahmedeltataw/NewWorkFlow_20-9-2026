@@ -8,13 +8,7 @@
  * This module imports neither `msw/node` nor `msw/browser`.
  */
 
-import type {
-  ErrorResult,
-  GateRequiredResult,
-  SuccessResult,
-  ValidationFailureResult,
-} from "../../lib/api/result";
-import type { GatedIntent } from "../../lib/api/result";
+import type { GatedIntent, SuccessResult } from "../../lib/api/result";
 
 /** Canonical REST paths a data-client implementation must match. */
 export const apiRoutes = {
@@ -26,9 +20,13 @@ export const apiRoutes = {
   search: "/api/search",
   session: "/api/session",
   authOtp: "/api/auth/otp",
+  otpVerify: "/api/auth/otp/verify",
   registerIndividual: "/api/auth/register/individual",
   registerCompany: "/api/auth/register/company",
   verificationReturn: "/api/auth/verification/return",
+  nationalIdCalendar: "/api/auth/national-id/calendar",
+  yakeenReturn: "/api/auth/yakeen/return",
+  companyReview: "/api/auth/company-review",
   outcomeByAuction: "/api/auctions/:auctionId/outcome",
   relistOffer: "/api/auctions/:auctionId/relist-offer",
   settlementByOutcome: "/api/outcomes/:outcomeId/settlement",

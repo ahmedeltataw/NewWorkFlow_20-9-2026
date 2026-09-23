@@ -30,6 +30,7 @@ import {
   translate,
 } from "./index";
 import type { DateInput } from "./index";
+import type { MessageValues } from "./index";
 
 /** A year-long cookie lifetime; the locale preference is "across visits". */
 const COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 365;
@@ -38,7 +39,7 @@ export interface I18nContextValue {
   readonly locale: Locale;
   readonly dir: "rtl" | "ltr";
   readonly isRtl: boolean;
-  readonly t: (key: MessageKey) => string;
+  readonly t: (key: MessageKey, values?: MessageValues) => string;
   readonly formatNumber: (
     amount: number,
     options?: Intl.NumberFormatOptions,
@@ -88,7 +89,7 @@ export function LocaleProvider({
       locale,
       dir: LOCALE_DIRECTION[locale],
       isRtl: LOCALE_DIRECTION[locale] === "rtl",
-      t: (key) => translate(locale, key),
+      t: (key, values) => translate(locale, key, values),
       formatNumber: (amount, options) =>
         formatNumberFor(locale, amount, options),
       formatCurrency: (amountMinor, currency) =>

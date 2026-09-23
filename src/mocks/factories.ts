@@ -1272,6 +1272,7 @@ export interface IndividualAccountOverrides {
   readonly nationality?: "saudi" | "nonSaudi";
   readonly nationalId?: string;
   readonly dateCalendar?: NationalIdCalendar;
+  readonly dateOfBirth?: IndividualAccount["dateOfBirth"];
   readonly verification?: IdentityVerification;
 }
 
@@ -1289,6 +1290,7 @@ export function createIndividualAccount(
       ? { nationalId: overrides.nationalId ?? "1012345678" }
       : {}),
     dateCalendar: overrides.dateCalendar ?? (isSaudi ? "hijri" : "gregorian"),
+    ...(overrides.dateOfBirth ? { dateOfBirth: overrides.dateOfBirth } : {}),
     verification:
       overrides.verification ??
       (isSaudi

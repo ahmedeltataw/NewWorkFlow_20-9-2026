@@ -5,6 +5,7 @@ import { LOCALE_DIRECTION, translate } from "../lib/i18n";
 import { LocaleProvider } from "../lib/i18n/locale-provider";
 import { getRequestLocale } from "../lib/i18n/server";
 import { AppShell } from "../components/shell/AppShell";
+import { BrowserMockProvider } from "../mocks/BrowserMockProvider";
 
 import "../styles/tokens.css";
 
@@ -37,7 +38,9 @@ export default async function RootLayout({
     <html lang={locale} dir={LOCALE_DIRECTION[locale]} style={fontStyles}>
       <body>
         <LocaleProvider locale={locale}>
-          <AppShell labels={shellLabels}>{children}</AppShell>
+          <BrowserMockProvider>
+            <AppShell labels={shellLabels}>{children}</AppShell>
+          </BrowserMockProvider>
         </LocaleProvider>
       </body>
     </html>

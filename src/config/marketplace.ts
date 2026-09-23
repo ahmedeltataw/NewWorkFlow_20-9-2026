@@ -340,6 +340,27 @@ export const paymentWindowHours = 48;
 /** Countdown takes its urgent appearance below this threshold (FR-033, FR-6.4). */
 export const countdownUrgencyMinutes = 60;
 
+export interface PhoneCountryRule {
+  readonly countryCode: string;
+  readonly labelKey: MessageKey;
+  readonly nationalNumberPattern: RegExp;
+}
+
+export const phoneCountryRules: readonly PhoneCountryRule[] = [
+  {
+    countryCode: "+966",
+    labelKey: "auth.phoneForm.country.saudi",
+    nationalNumberPattern: /^5\d{8}$/,
+  },
+  {
+    countryCode: "+973",
+    labelKey: "auth.phoneForm.country.bahrain",
+    nationalNumberPattern: /^\d{8}$/,
+  },
+];
+
+export const otpResendSeconds = 60;
+
 /** Deposit payment methods (FR-042); server/online methods are dashboard-managed. */
 export const paymentMethodDefaults = ["wallet", "online"] as const;
 export type PaymentMethodId = (typeof paymentMethodDefaults)[number];
@@ -553,7 +574,9 @@ export const marketplaceConfig = {
   timing: {
     paymentWindowHours,
     countdownUrgencyMinutes,
+    otpResendSeconds,
   },
+  phoneCountryRules,
   payments: {
     methods: paymentMethodDefaults,
     banks,

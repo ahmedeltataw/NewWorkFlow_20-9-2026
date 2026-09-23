@@ -213,6 +213,12 @@ export interface PhoneNumber {
 
 export type NationalIdCalendar = "hijri" | "gregorian";
 
+export interface DateOfBirth {
+  readonly day: number;
+  readonly month: number;
+  readonly year: number;
+}
+
 export type IdentityVerification =
   | {
       readonly route: "saudiNationalVerification";
@@ -231,6 +237,7 @@ export interface IndividualAccount extends AccountBase {
   readonly nationality: "saudi" | "nonSaudi";
   readonly nationalId?: string;
   readonly dateCalendar: NationalIdCalendar;
+  readonly dateOfBirth?: DateOfBirth;
   readonly verification: IdentityVerification;
 }
 

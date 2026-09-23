@@ -45,11 +45,9 @@ import {
   createIndividualAccount,
   createIndividualSeller,
   createLiveAuction,
-  createManualVerification,
   createParticipant,
   createParticipantCoverageList,
   createRelistOffer,
-  createSaudiVerification,
   createSellerOptionApprovedOutcome,
   createSellerOptionRejectedOutcome,
   createSettlement,
@@ -58,22 +56,17 @@ import {
   createUpcomingAuction,
   createWallet,
   createWithdrawalRequest,
-  fixtureValueLists,
   moneyFromMajor,
 } from "./factories";
 import type {
   Account,
   Auction,
-  AuctionCategory,
-  AuctionStatus,
   AutoBidState,
   Deposit,
   DirectSaleRelistOffer,
   LiveAuction,
   Outcome,
   Participant,
-  PhoneNumber,
-  Seller,
   Settlement,
   Transaction,
   Wallet,
@@ -83,10 +76,6 @@ import type {
   AutoBidRequest,
   AuctionPerspective,
   BidRequest,
-  CompanyRegistration,
-  IdentityVerificationReturn,
-  IndividualRegistration,
-  MarketplaceQuery,
   PayDepositRequest,
   SellerDecision,
   WithdrawalRequestInput,
@@ -103,37 +92,32 @@ import {
   notFound,
 } from "./handlers/shared";
 import { resolvePublicMockRequest } from "./runtime-public";
+import {
+  createAuthHandlers,
+  accountScenarios,
+  otpScenarios,
+  nationalIdCalendarScenarios,
+  yakeenReturnScenarios,
+  companyReviewScenarios,
+  authScenarioHandlers,
+  authScenarioList,
+  mockScenarios,
+  mockRoles,
+  DEFAULT_MOCK_DELAY_MS,
+  type MockScenario,
+  type MockRole,
+} from "./handlers/auth";
 
-export { apiRoutes };
-
-export type MockScenario =
-  "default" | "loading" | "empty" | "error" | "guest" | "role";
-
-export type MockRole =
-  | "individualSaudi"
-  | "individualNonSaudi"
-  | "companySubmitted"
-  | "companyUnderReview"
-  | "companyActivated";
-
-export const mockScenarios: readonly MockScenario[] = [
-  "default",
-  "loading",
-  "empty",
-  "error",
-  "guest",
-  "role",
-];
-
-export const mockRoles: readonly MockRole[] = [
-  "individualSaudi",
-  "individualNonSaudi",
-  "companySubmitted",
-  "companyUnderReview",
-  "companyActivated",
-];
-
-export const DEFAULT_MOCK_DELAY_MS = 400;
+export { apiRoutes, mockScenarios, mockRoles, DEFAULT_MOCK_DELAY_MS };
+export {
+  accountScenarios,
+  otpScenarios,
+  nationalIdCalendarScenarios,
+  yakeenReturnScenarios,
+  companyReviewScenarios,
+  authScenarioHandlers,
+  authScenarioList,
+};
 
 interface MockState {
   scenario: MockScenario;
@@ -264,51 +248,6 @@ function findAuctionById(auctionId: string): Auction | undefined {
   return auctionCatalog.find((auction) => auction.id === auctionId);
 }
 
-/** Home feed rules: every state except ended (FR-019). */
-function homeFeedAuctions(): readonly Auction[] {
-  return auctionCatalog.filter((auction) => auction.status !== "ended");
-}
-
-function marketplaceAuctions(query: MarketplaceQuery): readonly Auction[] {
-  const needle = query.query?.toLowerCase();
-  return auctionCatalog.filter((auction) => {
-    if (needle && !auction.title.toLowerCase().includes(needle)) return false;
-    if (query.category && auction.category !== query.category) return false;
-    if (query.saleType) {
-      if (!("saleType" in auction) || auction.saleType !== query.saleType) {
-        return false;
-      }
-    }
-    if (query.status && auction.status !== query.status) return false;
-    if (query.sellerKind && auction.seller.kind !== query.sellerKind) {
-      return false;
-    }
-    if (query.companyName) {
-      if (auction.seller.kind !== "company") return false;
-      if (!auction.seller.name.includes(query.companyName)) return false;
-    }
-    return true;
-  });
-}
-
-const popularSearchTerms: readonly string[] = [
-  "تويوتا",
-  "Toyota",
-  "لاند كروزر",
-  "Land Cruiser",
-  "فيلا",
-  "Villa",
-  "لوحة مميزة",
-  "Special plate",
-];
-
-function searchAuctionsByTerm(input: string): readonly Auction[] {
-  const needle = input.trim().toLowerCase();
-  return auctionCatalog.filter((auction) =>
-    auction.title.toLowerCase().includes(needle),
-  );
-}
-
 const outcomeByAuctionId: Readonly<Record<string, Outcome>> = {
   "fx-ended-vehicle": createBySaleWinOutcome({
     auctionId: "fx-ended-vehicle",
@@ -433,48 +372,6 @@ function pathParam(params: PathParams, key: string): string {
   return "";
 }
 
-function isAuctionCategory(value: string): value is AuctionCategory {
-  return (
-    value === "vehicle" || value === "realEstate" || value === "licensePlate"
-  );
-}
-
-function isAuctionStatus(value: string): value is AuctionStatus {
-  return (
-    value === "upcoming" ||
-    value === "live" ||
-    value === "ended" ||
-    value === "directSale"
-  );
-}
-
-function isSellerKind(value: string): value is Seller["kind"] {
-  return value === "individual" || value === "company";
-}
-
-function readMarketplaceQuery(url: URL): MarketplaceQuery {
-  const rawQuery = url.searchParams.get("query");
-  const rawCategory = url.searchParams.get("category");
-  const rawSaleType = url.searchParams.get("saleType");
-  const rawStatus = url.searchParams.get("status");
-  const rawSellerKind = url.searchParams.get("sellerKind");
-  const rawCompanyName = url.searchParams.get("companyName");
-  return {
-    ...(rawQuery ? { query: rawQuery } : {}),
-    ...(rawCategory && isAuctionCategory(rawCategory)
-      ? { category: rawCategory }
-      : {}),
-    ...(rawSaleType === "bySale" || rawSaleType === "sellerOption"
-      ? { saleType: rawSaleType }
-      : {}),
-    ...(rawStatus && isAuctionStatus(rawStatus) ? { status: rawStatus } : {}),
-    ...(rawSellerKind && isSellerKind(rawSellerKind)
-      ? { sellerKind: rawSellerKind }
-      : {}),
-    ...(rawCompanyName ? { companyName: rawCompanyName } : {}),
-  };
-}
-
 /* ------------------------------------------------------------------------- */
 /* Handlers                                                                   */
 /* ------------------------------------------------------------------------- */
@@ -512,69 +409,7 @@ const handlers: readonly HttpHandler[] = [
   }),
 
   /* -------- Session and auth -------------------------------------------- */
-  http.get(apiRoutes.session, async () => {
-    await waitForScenarioDelay();
-    if (state.scenario === "error") return serverError();
-    if (isGated(state.scenario)) return success<Account | null>(null);
-    return success<Account | null>(currentAccount());
-  }),
-
-  http.post(apiRoutes.authOtp, async ({ request }) => {
-    await waitForScenarioDelay();
-    if (state.scenario === "error") return serverError();
-    const body = (await request.json()) as PhoneNumber;
-    if (!body.nationalNumber) {
-      return validationFailure({ phone: "phone-number-required" });
-    }
-    return success<PhoneNumber>(body);
-  }),
-
-  http.post(apiRoutes.registerIndividual, async ({ request }) => {
-    await waitForScenarioDelay();
-    if (state.scenario === "error") return serverError();
-    const body = (await request.json()) as IndividualRegistration;
-    if (!body.nationalId?.trim()) {
-      return validationFailure({ nationalId: "national-id-required" });
-    }
-    const account = createIndividualAccount({
-      phone: body.phone,
-      nationality: body.nationality,
-      nationalId: body.nationalId,
-      dateCalendar: body.dateCalendar,
-      verification:
-        body.nationality === "saudi"
-          ? createSaudiVerification("success")
-          : createManualVerification(),
-    });
-    return success<Account>(account);
-  }),
-
-  http.post(apiRoutes.registerCompany, async ({ request }) => {
-    await waitForScenarioDelay();
-    if (state.scenario === "error") return serverError();
-    const body = (await request.json()) as CompanyRegistration;
-    if (!body.companyName?.trim()) {
-      return validationFailure({ companyName: "company-name-required" });
-    }
-    return success<Account>(
-      createCompanyAccount({
-        phone: body.phone,
-        companyName: body.companyName,
-        review: "submitted",
-      }),
-    );
-  }),
-
-  http.post(apiRoutes.verificationReturn, async ({ request }) => {
-    await waitForScenarioDelay();
-    if (state.scenario === "error") return serverError();
-    const body = (await request.json()) as IdentityVerificationReturn;
-    return success<Account>(
-      createIndividualAccount({
-        verification: createSaudiVerification(body.status),
-      }),
-    );
-  }),
+  ...createAuthHandlers(state),
 
   /* -------- Deposits and bidding (gated for guests) ---------------------- */
   http.get(apiRoutes.depositByAuction, async ({ request, params }) => {
@@ -798,7 +633,7 @@ const handlers: readonly HttpHandler[] = [
     );
   }),
 
-  /* -------- Favorites, my-auctions, profile (gated for guests) ----------- */
+  /* -------- Favorites, my-auctions (gated for guests) ----------- */
   http.get(apiRoutes.favorites, async ({ request }) => {
     await waitForScenarioDelay();
     if (isGated(state.scenario)) return gateRequired(request, "favorite");
@@ -835,15 +670,6 @@ const handlers: readonly HttpHandler[] = [
         perspective === "selling" ? "selling" : "participating",
       ),
     );
-  }),
-
-  http.get(apiRoutes.profile, async ({ request }) => {
-    await waitForScenarioDelay();
-    if (isGated(state.scenario)) {
-      return gateRequired(request, "personal-area");
-    }
-    if (state.scenario === "error") return serverError();
-    return success<Account>(currentAccount());
   }),
 ];
 

@@ -47,6 +47,27 @@ function ArrayFromMap(
 }
 
 describe("T016 catalogue key parity", () => {
+  it("keeps the auth key sets identical", () => {
+    const authKeys = (catalogue: Record<string, string>) =>
+      Object.keys(catalogue)
+        .filter((key) => key.startsWith("auth."))
+        .sort();
+    expect(authKeys(messagesEn)).toEqual(authKeys(messagesAr));
+  });
+
+  it("interpolates named auth values in both locales", () => {
+    const values = { minimum: "1300", maximum: "1450" };
+    expect(translate("en", "auth.details.invalidHijriYear", values)).toBe(
+      "Enter a Hijri year between 1300 and 1450",
+    );
+    expect(translate("ar", "auth.details.invalidHijriYear", values)).toContain(
+      "1300",
+    );
+    expect(translate("ar", "auth.details.invalidHijriYear", values)).toContain(
+      "1450",
+    );
+  });
+
   it("defines every ar key in en and every en key in ar at runtime", () => {
     const arKeys = Object.keys(messagesAr).sort();
     const enKeys = Object.keys(messagesEn).sort();

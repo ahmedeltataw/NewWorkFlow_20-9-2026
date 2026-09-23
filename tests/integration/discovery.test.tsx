@@ -608,6 +608,29 @@ describe("5. Guest gating", () => {
     });
   });
 
+  it("provides locale context to a listing gate rendered through the grid", async () => {
+    const user = userEvent.setup();
+    render(
+      <ListingGrid
+        auctions={[createLiveAuction({ id: "gate-listing" })]}
+        locale="ar"
+        ariaLabel="auction listings"
+        emptyTitleKey="home.empty.title"
+      />,
+    );
+
+    await user.click(
+      screen.getByRole("button", {
+        name: translate("ar", "common.favorite"),
+      }),
+    );
+    expect(
+      screen.getByRole("dialog", {
+        name: translate("ar", "auth.loginRequired.title"),
+      }),
+    ).toBeVisible();
+  });
+
   it("captures intent and restores exactly once", async () => {
     const user = userEvent.setup();
     renderWithLocale(

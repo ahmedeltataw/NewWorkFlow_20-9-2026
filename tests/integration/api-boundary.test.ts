@@ -99,12 +99,23 @@ function createReferenceClient(): AuctionMarketplaceClient {
     getSession: () => request<Account | null>("GET", "/api/session"),
     requestOtpCode: (phone: PhoneNumber) =>
       request<PhoneNumber>("POST", "/api/auth/otp", phone),
+    verifyOtpCode: (code: string) =>
+      request<Account>("POST", "/api/auth/otp/verify", { code }),
+    getNationalIdCalendar: (nationalId: string) =>
+      request<{
+        readonly calendar: "hijri" | "gregorian";
+        readonly nationalId: string;
+      }>(
+        "GET",
+        `/api/auth/national-id/calendar?nationalId=${encodeURIComponent(nationalId)}`,
+      ),
     registerIndividual: (input) =>
       request<Account>("POST", "/api/auth/register/individual", input),
     registerCompany: (input) =>
       request<Account>("POST", "/api/auth/register/company", input),
     completeIdentityVerification: (input) =>
       request<Account>("POST", "/api/auth/verification/return", input),
+    getCompanyReview: () => request<Account>("GET", "/api/auth/company-review"),
 
     getDeposit: (auctionId: string) =>
       request<Deposit>(
@@ -301,6 +312,7 @@ describe("T022 data-client / MSW contract", () => {
           nationality: "saudi",
           nationalId: "1012345678",
           dateCalendar: "hijri",
+          dateOfBirth: { day: 15, month: 6, year: 1415 },
         }),
       );
       expect(individual).toMatchObject({

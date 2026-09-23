@@ -20,6 +20,7 @@ test-results/
 next-env.d.ts
 tsconfig.tsbuildinfo
 package-lock.json
+public/mockServiceWorker.js
 docs_ai/
 
 # Specification artifacts

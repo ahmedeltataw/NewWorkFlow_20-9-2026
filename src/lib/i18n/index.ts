@@ -78,8 +78,22 @@ export function getMessages(locale: Locale): Messages {
  * or misspelled key cannot compile; the return value is present for both
  * locales because `Messages` enforces the shared shape.
  */
-export function translate(locale: Locale, key: MessageKey): string {
-  return getMessages(locale)[key];
+export type MessageValues = Readonly<Record<string, string | number>>;
+
+export function translate(
+  locale: Locale,
+  key: MessageKey,
+  values?: MessageValues,
+): string {
+  const message = getMessages(locale)[key];
+  if (!values) return message;
+  return message.replace(
+    /\{([A-Za-z][A-Za-z0-9]*)\}/g,
+    (placeholder, name: string) =>
+      Object.prototype.hasOwnProperty.call(values, name)
+        ? String(values[name])
+        : placeholder,
+  );
 }
 
 /* ------------------------------------------------------------------ *

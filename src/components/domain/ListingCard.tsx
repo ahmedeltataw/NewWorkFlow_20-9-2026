@@ -9,6 +9,7 @@ import type { Locale } from "../../lib/api/types";
 import { FavoriteButton } from "./FavoriteButton";
 import { StatusBadge } from "./StatusBadge";
 import { LoginRequired } from "../../features/auth/LoginRequired";
+import { LocaleProvider } from "../../lib/i18n/locale-provider";
 
 export interface ListingCardProps {
   readonly id: string;
@@ -143,11 +144,13 @@ export function ListingCard({
           />
         </div>
       </div>
-      <LoginRequired
-        open={isLoginRequiredOpen}
-        onOpenChange={setLoginRequiredOpen}
-        intent={loginIntent ?? { intent: "favorite", returnTo: "/" }}
-      />
+      <LocaleProvider locale={locale}>
+        <LoginRequired
+          open={isLoginRequiredOpen}
+          onOpenChange={setLoginRequiredOpen}
+          intent={loginIntent ?? { intent: "favorite", returnTo: "/" }}
+        />
+      </LocaleProvider>
     </article>
   );
 }

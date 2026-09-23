@@ -33,6 +33,94 @@ export const messagesEn: Messages = {
   "auth.phone.title": "Sign in",
   "auth.phone.description":
     "Complete sign-in to return to the action you chose.",
+  "auth.brand.tagline":
+    "International auctions for vehicles, real estate, and license plates",
+
+  "auth.phoneForm.country": "Country",
+  "auth.phoneForm.country.saudi": "Saudi Arabia (+966)",
+  "auth.phoneForm.country.bahrain": "Bahrain (+973)",
+  "auth.phoneForm.phoneNumber": "Phone number",
+  "auth.phoneForm.sendCode": "Send code",
+  "auth.phoneForm.invalidCountry": "Select a valid country",
+  "auth.phoneForm.invalidSaudi":
+    "Enter a {digits}-digit Saudi mobile number starting with {prefix}",
+  "auth.phoneForm.invalidBahrain":
+    "Enter an {digits}-digit Bahrain phone number",
+  "auth.phoneForm.sendFailed": "Unable to send a code. Try again.",
+
+  "auth.otp.title": "Verify your phone",
+  "auth.otp.verificationCode": "Verification code",
+  "auth.otp.digit": "Verification digit {number}",
+  "auth.otp.verifyCode": "Verify code",
+  "auth.otp.invalidCode": "Enter the six-digit code",
+  "auth.otp.rejectedCode": "The verification code is invalid or expired",
+  "auth.otp.resendCountdown": "Resend code in {time}",
+  "auth.otp.resendAvailableIn": "Resend available in {seconds} seconds",
+  "auth.otp.resendAvailable": "Resend code is available",
+  "auth.otp.resend": "Resend code",
+
+  "auth.accountType.title": "Choose account type",
+  "auth.accountType.individual": "Individual",
+  "auth.accountType.company": "Company",
+
+  "auth.details.individualTitle": "Individual details",
+  "auth.details.companyTitle": "Company details",
+  "auth.details.nationality": "Nationality",
+  "auth.details.saudi": "Saudi",
+  "auth.details.nonSaudi": "Non-Saudi",
+  "auth.details.nationalId": "National ID",
+  "auth.details.birthDate": "Date of birth ({calendar})",
+  "auth.details.day": "Day",
+  "auth.details.month": "Month",
+  "auth.details.year": "Year",
+  "auth.details.invalidNationalId":
+    "National ID must be {digits} digits starting with {first} or {second}",
+  "auth.details.invalidHijriDay":
+    "Enter a Hijri day between {minimum} and {maximum}",
+  "auth.details.invalidHijriMonth":
+    "Enter a Hijri month between {minimum} and {maximum}",
+  "auth.details.invalidHijriYear":
+    "Enter a Hijri year between {minimum} and {maximum}",
+  "auth.details.invalidGregorianDay": "Enter a real Gregorian date",
+  "auth.details.invalidGregorianMonth":
+    "Enter a Gregorian month between {minimum} and {maximum}",
+  "auth.details.invalidGregorianYear":
+    "Enter a Gregorian year from {minimum} through the current year",
+  "auth.details.futureDate": "Date of birth cannot be in the future",
+  "auth.details.submitFailed": "Unable to save your details",
+  "auth.details.continue": "Continue verification",
+
+  "auth.company.name": "Company name",
+  "auth.company.nameRequired": "Enter your company name",
+  "auth.company.submitFailed": "Unable to submit company details",
+  "auth.company.underReview":
+    "Selling is unavailable while your company is under review",
+  "auth.company.submit": "Submit company",
+
+  "auth.verify.title": "Mock national identity provider",
+  "auth.verify.description": "Choose a mock verification outcome.",
+  "auth.verify.approve": "Approve",
+  "auth.verify.decline": "Decline",
+  "auth.verify.cancel": "Cancel",
+
+  "auth.identity.completing": "Completing identity verification",
+  "auth.identity.success": "Identity verification succeeded",
+  "auth.identity.failure": "Identity verification failed",
+  "auth.identity.abandoned": "Identity verification was abandoned",
+  "auth.identity.completionError": "Unable to finish identity verification",
+  "auth.identity.retry": "Try verification again",
+
+  "auth.review.title": "Company review",
+  "auth.review.loading": "Loading company review",
+  "auth.review.empty": "No company review available",
+  "auth.review.error": "Unable to load company review",
+  "auth.review.retry": "Try again",
+  "auth.review.available": "Selling is available",
+  "auth.review.unavailable":
+    "Selling is unavailable until your company is activated",
+  "auth.review.step.submitted": "Submitted",
+  "auth.review.step.underReview": "Under review",
+  "auth.review.step.activated": "Activated",
 
   "status.upcoming": "Upcoming",
   "status.live": "Live",

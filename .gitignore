@@ -37,3 +37,6 @@ specs/*
 # env
 .env
 .env.local
+
+# Local task-classification metadata (may contain task descriptions).
+.ai/runtime/

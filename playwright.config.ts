@@ -55,8 +55,10 @@ export default defineConfig({
     video: "retain-on-failure",
   },
   webServer: {
-    command: "npm run dev",
+    command: "npm run build && npm run start",
+    env: { NEXT_PUBLIC_API_MOCKING: "enabled" },
     url: SERVER_URL,
+    timeout: 240_000,
     reuseExistingServer: !process.env.CI,
   },
   projects,

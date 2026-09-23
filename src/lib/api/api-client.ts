@@ -7,7 +7,7 @@
  */
 
 import type { AuctionMarketplaceClient, MarketplaceQuery } from "./client";
-import type { CollectionResult, Result } from "./result";
+import type { CollectionResult, ErrorResult, Result } from "./result";
 import type {
   Account,
   Auction,
@@ -15,7 +15,6 @@ import type {
   AutoBidState,
   Deposit,
   DirectSaleRelistOffer,
-  Locale,
   Outcome,
   Participant,
   PhoneNumber,
@@ -36,28 +35,55 @@ import {
   type AuctionPerspective,
 } from "./client";
 import { marketplaceConfig } from "../../config/marketplace";
+import { startBrowserMockWorker } from "../../mocks/browser-runtime";
 
 const BASE = marketplaceConfig.apiBaseUrl;
 
-async function fetchJson<T>(path: string): Promise<T> {
-  const res = await fetch(`${BASE}${path}`);
-  if (!res.ok) {
-    throw new Error(`API ${res.status}: ${path}`);
+async function workerStartupError(): Promise<ErrorResult | null> {
+  try {
+    await startBrowserMockWorker();
+    return null;
+  } catch {
+    return {
+      status: "error",
+      kind: "network",
+      message: "Mock service worker could not start",
+      retryEligible: true,
+    };
   }
-  return res.json() as Promise<T>;
 }
 
-function unwrap<D>(envelope: { readonly status: string; readonly data: D }): D {
-  return envelope.data;
+async function requestCollection<T>(
+  path: string,
+): Promise<CollectionResult<T>> {
+  const startupError = await workerStartupError();
+  if (startupError) return startupError;
+  const response = await fetch(`${BASE}${path}`);
+  if (!response.ok) throw new Error(`API ${response.status}: ${path}`);
+  const envelope = (await response.json()) as {
+    readonly data: readonly T[];
+  };
+  return { status: "success", data: envelope.data };
+}
+
+async function requestResult<D>(
+  path: string,
+  init?: RequestInit,
+): Promise<Result<D>> {
+  const startupError = await workerStartupError();
+  if (startupError) return startupError;
+  const response = init
+    ? await fetch(`${BASE}${path}`, {
+        headers: { "content-type": "application/json", ...init.headers },
+        ...init,
+      })
+    : await fetch(`${BASE}${path}`);
+  return (await response.json()) as Result<D>;
 }
 
 export class ApiClient implements AuctionMarketplaceClient {
   async getHomeFeed(): Promise<CollectionResult<Auction>> {
-    const envelope = await fetchJson<{
-      readonly status: string;
-      readonly data: readonly Auction[];
-    }>("/api/home-feed");
-    return { status: "success", data: unwrap(envelope) };
+    return requestCollection<Auction>("/api/home-feed");
   }
 
   async getCategories(): Promise<Result<readonly AuctionCategory[]>> {
@@ -72,11 +98,9 @@ export class ApiClient implements AuctionMarketplaceClient {
       if (value !== undefined && value !== "") params.set(key, value);
     }
     const search = params.toString();
-    const envelope = await fetchJson<{
-      readonly status: string;
-      readonly data: readonly Auction[];
-    }>(`/api/auctions${search ? `?${search}` : ""}`);
-    return { status: "success", data: unwrap(envelope) };
+    return requestCollection<Auction>(
+      `/api/auctions${search ? `?${search}` : ""}`,
+    );
   }
 
   async getSearchSuggestions(
@@ -85,22 +109,12 @@ export class ApiClient implements AuctionMarketplaceClient {
     const params = new URLSearchParams();
     if (input.trim()) params.set("q", input.trim());
     const search = params.toString();
-    const res = await fetch(
-      `${BASE}/api/search/suggestions${search ? `?${search}` : ""}`,
+    const result = await requestResult<readonly string[]>(
+      `/api/search/suggestions${search ? `?${search}` : ""}`,
     );
-    const envelope = (await res.json()) as {
-      readonly status: string;
-      readonly data?: readonly string[];
-      readonly kind?: string;
-      readonly message?: string;
-      readonly retryEligible?: boolean;
-      readonly fieldErrors?: Readonly<Record<string, string>>;
-      readonly intent?: unknown;
-    };
-    if (envelope.status === "success") {
-      return { status: "success", data: envelope.data ?? [] };
-    }
-    return envelope as Result<readonly string[]>;
+    return result.status === "success"
+      ? { status: "success", data: result.data ?? [] }
+      : result;
   }
 
   async searchAuctions(
@@ -111,63 +125,73 @@ export class ApiClient implements AuctionMarketplaceClient {
     if (input.trim()) params.set("q", input.trim());
     if (category) params.set("category", category);
     const search = params.toString();
-    const res = await fetch(`${BASE}/api/search${search ? `?${search}` : ""}`);
-    const envelope = (await res.json()) as {
-      readonly status: string;
-      readonly data?: readonly Auction[];
-      readonly kind?: string;
-      readonly message?: string;
-      readonly retryEligible?: boolean;
-      readonly fieldErrors?: Readonly<Record<string, string>>;
-      readonly intent?: unknown;
-    };
-    if (envelope.status === "success") {
-      return { status: "success", data: envelope.data ?? [] };
-    }
-    return envelope as CollectionResult<Auction>;
+    return requestResult<readonly Auction[]>(
+      `/api/search${search ? `?${search}` : ""}`,
+    );
   }
 
   async getAuctionDetail(auctionId: string): Promise<Result<Auction>> {
-    const res = await fetch(
-      `${BASE}/api/auctions/${encodeURIComponent(auctionId)}`,
+    return requestResult<Auction>(
+      `/api/auctions/${encodeURIComponent(auctionId)}`,
     );
-    const envelope = (await res.json()) as {
-      readonly status: string;
-      readonly data?: Auction;
-      readonly kind?: string;
-      readonly message?: string;
-      readonly retryEligible?: boolean;
-      readonly fieldErrors?: Readonly<Record<string, string>>;
-      readonly intent?: unknown;
-    };
-    if (envelope.status === "success" && envelope.data) {
-      return { status: "success", data: envelope.data };
-    }
-    return envelope as Result<Auction>;
   }
 
   async getSession(): Promise<Result<Account | null>> {
-    throw new Error("Not implemented in ApiClient stub");
+    return requestResult<Account | null>("/api/session");
   }
 
-  async requestOtpCode(_phone: PhoneNumber): Promise<Result<PhoneNumber>> {
-    throw new Error("Not implemented in ApiClient stub");
+  async requestOtpCode(phone: PhoneNumber): Promise<Result<PhoneNumber>> {
+    return requestResult<PhoneNumber>("/api/auth/otp", {
+      method: "POST",
+      body: JSON.stringify(phone),
+    });
+  }
+
+  async verifyOtpCode(code: string): Promise<Result<Account>> {
+    return requestResult<Account>("/api/auth/otp/verify", {
+      method: "POST",
+      body: JSON.stringify({ code }),
+    });
+  }
+
+  async getNationalIdCalendar(nationalId: string): Promise<
+    Result<{
+      readonly calendar: import("./types").NationalIdCalendar;
+      readonly nationalId: string;
+    }>
+  > {
+    return requestResult(
+      `/api/auth/national-id/calendar?nationalId=${encodeURIComponent(nationalId)}`,
+    );
   }
 
   async registerIndividual(
-    _input: IndividualRegistration,
+    input: IndividualRegistration,
   ): Promise<Result<Account>> {
-    throw new Error("Not implemented in ApiClient stub");
+    return requestResult<Account>("/api/auth/register/individual", {
+      method: "POST",
+      body: JSON.stringify(input),
+    });
   }
 
-  async registerCompany(_input: CompanyRegistration): Promise<Result<Account>> {
-    throw new Error("Not implemented in ApiClient stub");
+  async registerCompany(input: CompanyRegistration): Promise<Result<Account>> {
+    return requestResult<Account>("/api/auth/register/company", {
+      method: "POST",
+      body: JSON.stringify(input),
+    });
   }
 
   async completeIdentityVerification(
-    _input: IdentityVerificationReturn,
+    input: IdentityVerificationReturn,
   ): Promise<Result<Account>> {
-    throw new Error("Not implemented in ApiClient stub");
+    return requestResult<Account>("/api/auth/yakeen/return", {
+      method: "POST",
+      body: JSON.stringify(input),
+    });
+  }
+
+  async getCompanyReview(): Promise<Result<Account>> {
+    return requestResult<Account>("/api/auth/company-review");
   }
 
   async getDeposit(
